@@ -1,0 +1,88 @@
+% Exam notecard template. 6in x 5in sheet = two 3x5 faces (cut/fold on the dashed line).
+% Read docs/workflow.md first. Rename this file to UnitN_Notecard_6x5.tex in the user's notecard folder.
+% Build in place:  tectonic -X compile UnitN_Notecard_6x5.tex
+\documentclass{article}
+\usepackage[paperwidth=6in,paperheight=5in,margin=0.06in]{geometry}
+\usepackage{fontspec}
+\usepackage{unicode-math}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{eso-pic}
+\usepackage{needspace}
+\usepackage{graphicx}
+
+% ---------- fonts ----------
+\newcommand\fontdir{/Users/joelr/Library/Fonts/}  % where the commercial fonts live
+\newcommand\bodysize{3.55}      % body text size (pt)
+\newcommand\bodylead{3.774}     % baseline-to-baseline (pt)
+\setmainfont{Bell-Centennial-Std-Address_6527.ttf}[Path=\fontdir, AutoFakeBold=1.8, AutoFakeSlant=0.18]
+\setmathfont{FiraMath-Regular.otf}[Scale=0.92]
+\newfontfamily\symf{DejaVuSans.ttf}[Scale=0.85]
+\newfontfamily\stampf{Helvetica 95 Black.ttf}[Path=\fontdir, FakeBold=2.5]  % FakeBold = outline stroke weight
+\newcommand\stampheight{28pt}  % height of the STAMP HERE block (fills the leftover space in column 4)
+
+% ---------- page furniture: trim box, column rules, dashed cut line ----------
+\AddToShipoutPictureBG{\AtPageLowerLeft{\setlength\unitlength{1in}%
+  \linethickness{0.25pt}\color{black!30}%
+  \put(0.01,0.01){\framebox(5.98,4.98){}}%
+  \put(1.5,0.08){\line(0,1){4.84}}\put(4.5,0.08){\line(0,1){4.84}}%
+  \color{black!70}\multiput(3,0)(0,0.05){100}{\line(0,1){0.025}}}}
+
+% ---------- spacing ----------
+\setlength\columnsep{0.12in}
+\setlength\parindent{0pt}
+\setlength\parskip{0.15pt plus 0.4pt}
+\pagestyle{empty}
+\tolerance=3000 \emergencystretch=0.8em \hbadness=10000 \hfuzz=0.4pt
+\hyphenpenalty=30 \exhyphenpenalty=30 \binoppenalty=200 \relpenalty=100
+\AtBeginDocument{%
+  \thinmuskip=2mu \medmuskip=2mu plus 1mu minus 1mu \thickmuskip=3mu plus 2mu minus 1mu
+  \lineskiplimit=-0.5pt \lineskip=0.1pt \nulldelimiterspace=0pt \scriptspace=0.1pt}
+
+% ---------- markup ----------
+\newcommand\vb[1]{\symbf{#1}}                 % bold vector
+\newcommand\nm[1]{\lVert #1\rVert}            % norm
+\newcommand\ip[1]{\langle #1\rangle}          % <a,b,c>
+\newcommand\sh[1]{{\setlength\fboxsep{0.18pt}\colorbox{black!22}{\textbf{#1}}}} % equation-sheet tag
+\newcommand\hd[1]{\par\vspace{0.5pt}\needspace{4\baselineskip}\noindent
+  {\setlength\fboxsep{0.45pt}\colorbox{black}{\parbox{\dimexpr\linewidth-2\fboxsep}{\color{white}\bfseries #1}}}\par\nobreak\vspace{0.2pt}\nobreak}
+\newcommand\pt[1]{\par\textbf{{\symf ▸}#1}\ }  % problem type
+\newcommand\ex{\textit{Ex}\ }                  % worked example
+\newcommand\how{\textbf{How:}\ }
+\newcommand\warn{{\symf ⚠}}                    % pitfall
+\newcommand\shc{{\symf ★}}                      % shortcut / extra
+\newcommand\rt{\smash{\surd}}               % prefix radical: \rt2, \rt(x^2+y^2)
+\newcommand\then{\ensuremath{\Rightarrow}}
+
+\begin{document}
+\fontsize{\bodysize}{\bodylead}\selectfont
+\begin{multicols*}{4}
+
+% Tags in the legend are the Math 215 sheet's; see docs/equation-sheet-map.md.
+\hd{MATH 215 EXAM N \quad Lxx–Lyy \quad (sheet tags explained here)}
+\sh{5R6} = exam equation sheet \textbf{page 5, Right column, 6th formula} from the top (L = left column). \sh{5C1}–\sh{5C6} = p5 centered coordinate-conversion rows; \sh{5top} = p5 cross-product determinant; \sh{6B} = p6 projectile bullets; \sh{6M1}–\sh{6M5} = p6 full-width rows below the bullets ($\int\vb r$, $\int_a^b\vb r$, $s$ 2D, $s$ 3D, $s(t)$); \sh{p3} = derivative | integral table; \sh{p1} trig identities (by name); \sh{p2} unit circle; \sh{p4} = Unit 1 (vectors, lines, planes). \shc = shortcut/extra, \warn = pitfall, \textit{Ex} = worked example with answer.
+
+% One \hd per lesson, one \pt per problem type. This sample is the real L14 curvature entry.
+\hd{L14 ARC LENGTH \& CURVATURE}
+\pt{Curvature $\kappa$:} how sharply the curve bends per unit length ($\kappa\ge0$; line: 0; circle of radius $R$: $1/R$; \textbf{radius of curvature} $=1/\kappa$). Pick the form that matches what you have: \textbf{(a)} $\kappa=\nm{d\vb T/ds}=\nm{\vb T'(s)}$ \sh{5R4}: only when the parameter is arc length $s$; \shc then $\kappa=\nm{\vb r''(s)}$. \ex $\ip{15\cos(s/15),15\sin(s/15)}$ \then\ $\kappa=1/15$. \textbf{(b)} $\kappa=\nm{\vb T'(t)}/\nm{\vb r'(t)}$ \sh{5R5}: any $t$, when you already have $\vb T$. \textbf{(c)} $\kappa=\nm{\vb r'\times\vb r''}/\nm{\vb r'}^3$ \sh{5R6}: usually easiest for any $\vb r(t)$ (\warn\ cube the speed; \shc at a given $t$ plug in first, then cross numeric vectors); 2D: append $z=0$ \then\ $\kappa=|x'y''-y'x''|/(x'^2+y'^2)^{3/2}$. \textbf{(d)} $\kappa=|y''|/[1+(y')^2]^{3/2}$ \sh{5R7}: graph $y=f(x)$; $y',y''$ = $d/dx$ derivatives evaluated at the $x$-value. \ex $y=3x^2-2x+4$, $x=2$: $y'=10$, $y''=6$ \then\ $\kappa=6/101^{3/2}\approx0.00591$. \ex (Quiz 4) $y=8\cos6x$, $x=\pi/6$: $y'=-48\sin\pi=0$, $y''=-288\cos\pi=288$ \then\ $\kappa=288$. \shc Helix $\ip{a\cos t,a\sin t,bt}$: $\kappa=a/(a^2+b^2)$ ($a=4$, $b=3$ \then\ $4/25$).
+
+% Reusable across exams: trim what the sheet already covers for this unit.
+\hd{BY-HAND TOOLKIT (no CAS)}
+\pt{Derivatives.} On \sh{p3} (left): $k$, $x^n$, $\ln|x|$, $e^x$, $e^{bx}$, $\sin$, $\cos$ (also of $bx$), $\tan$, $\csc$, $\sec$, $\cot$, $\sin^{-1}$, $\tan^{-1}$, $\sec^{-1}$. \textbf{Product} $(fg)'=f'g+fg'$. \textbf{Quotient} $(f/g)'=(f'g-fg')/g^2$. \textbf{Chain} $[f(g)]'=f'(g)\cdot g'$ (outside derivative with the inside untouched, times inside derivative). Chain forms ($u$ = inside): $(u^n)'=nu^{n-1}u'$; $(\rt u)'=u'/(2\rt u)$; $(1/u)'=-u'/u^2$; $(e^u)'=e^uu'$; $(a^u)'=a^u\ln a\,u'$; $(\ln u)'=u'/u$; $(\log_au)'=u'/(u\ln a)$; $(\sin u)'=u'\cos u$; $(\cos u)'=-u'\sin u$; $(\tan u)'=u'\sec^2u$; $(\sec u)'=u'\sec u\tan u$; $(\cos^{-1}u)'=-u'/\rt(1-u^2)$; $(\cot^{-1}u)'=-u'/(1+u^2)$. Rewrite roots and fractions as powers first ($4/t^2=4t^{-2}$).
+
+\pt{Integrals.} On \sh{p3} (right): $k$, $x^n$, $1/x$, $e^x$, $e^{bx}$, $\cos bx$, $\sin bx$, $\sec^2$, $\csc\cot$, $\sec\tan$, $\csc^2$, $1/\rt(1-x^2)$, $1/(1+x^2)$. Not on the sheet: $\int\tan u=-\ln|\cos u|=\ln|\sec u|$; $\int\cot u=\ln|\sin u|$; $\int\sec u=\ln|\sec u+\tan u|$; $\int\csc u=-\ln|\csc u+\cot u|$; $\int\sec^2bx=(1/b)\tan bx$; $\int a^x=a^x/(\ln a)$; $\int\ln x=x\ln x-x$; $\int(ax+b)^n=(ax+b)^{n+1}/(a(n+1))$; $\int dx/(ax+b)=(1/a)\ln|ax+b|$; $\int dx/(a^2+x^2)=(1/a)\tan^{-1}(x/a)$; $\int\sin^2x=x/2-(\sin2x)/4$, $\int\cos^2x=x/2+(\sin2x)/4$ (power-reducing \sh{p1}). \textbf{u-sub}: $u$ = inside, $du=u'\,dt$, replace everything; definite: change the limits too. \textbf{Parts}: $\int u\,dv=uv-\int v\,du$ ($u$ by LIATE: Log, Inverse trig, Algebraic, Trig, Exp). $\int_a^bf=F(b)-F(a)$.
+
+\pt{Vectors.} Magnitude $\nm{\ip{a,b,c}}=\rt(a^2+b^2+c^2)$ \sh{4L11}; unit vector $\vb v/\nm{\vb v}$ \sh{4L12}. \textbf{Dot} $\vb u\cdot\vb v=u_1v_1+u_2v_2+u_3v_3$ \sh{4L16} (a scalar; $=0\iff\perp$); angle $\cos\theta=(\vb u\cdot\vb v)/(\nm{\vb u}\nm{\vb v})$ \sh{4R1}. \textbf{Cross} \sh{5top}: $\vb u\times\vb v=\ip{u_2v_3-u_3v_2,\ u_3v_1-u_1v_3,\ u_1v_2-u_2v_1}$. \how rows $\vb i\,\vb j\,\vb k$ / $\vb u$ / $\vb v$; for each unit vector cover its column and take the $2\times2$ determinant $ad-bc$; \warn\ the middle ($\vb j$) term gets a minus. Result $\perp$ both (check: dot with each $=0$); $\vb v\times\vb u=-(\vb u\times\vb v)$; $\nm{\vb u\times\vb v}$ = parallelogram area; 2D vectors: append 0. \shc Factor scalars out first: $(c\vb u)\times(d\vb v)=cd(\vb u\times\vb v)$, $\nm{c\vb v}=|c|\nm{\vb v}$.
+
+\pt{Algebra \& trig.} Complete the square: $ax^2+bx=a(x+b/(2a))^2-b^2/(4a)$. Quadratic formula $x=(-b\pm\rt(b^2-4ac))/(2a)$. Rationalize $a/\rt b=a\rt b/b$. $\rt(a^2b)=|a|\rt b$; $\rt(x^2)=|x|$. $\sin^2+\cos^2=1$, $1+\tan^2=\sec^2$ \sh{p1}. Logs: $e^{\ln a}=a$, $\ln e^k=k$, $\ln ab=\ln a+\ln b$; $e^{2t}=c$ \then\ $t=(1/2)\ln c$. Degrees $=$ radians$\times180/\pi$. Unit circle \sh{p2}. \shc Perfect-square speeds: $4t^2+4+1/t^2=(2t+1/t)^2$; $e^{2t}+2+e^{-2t}=(e^t+e^{-t})^2$; $\ip{e^t\cos t,e^t\sin t,e^t}$: speed $\rt3\,e^t$.
+
+\pt{Answer checks.} Vector or scalar? Exact or decimal (round only at the end)? Degrees vs radians (calculator mode)? $+\vb C$ written once? Given $\theta$ kept? Only coefficients in $\vb i/\vb j/\vb k$ boxes? $\kappa$, $a_N$, speed, $\rho$, $r$ all $\ge0$?
+
+\vfill
+% hollow letters: white fill + black stroke (change [1] to e.g. [0.85] for a light gray fill)
+\noindent\hfil\resizebox{!}{\stampheight}{\vbox{\special{pdf:bc [1] [0]}\stampf\fontsize{20}{20}\selectfont
+  \baselineskip=0pt \lineskiplimit=0pt \lineskip=2.6pt
+  \halign{\hfil#\hfil\cr STAMP\cr HERE\cr}\special{pdf:ec}}}\hfil\par
+
+\end{multicols*}
+\end{document}

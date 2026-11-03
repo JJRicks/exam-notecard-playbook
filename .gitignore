@@ -1,0 +1,11 @@
+# Commercial fonts stay on the user's machine, never in the repo.
+*.ttf
+*.otf
+*.ttc
+# Build output
+*.log
+*.aux
+*.xdv
+template/*.pdf
+_fit_size.tex
+.DS_Store

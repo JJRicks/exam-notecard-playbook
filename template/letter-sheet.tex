@@ -1,0 +1,39 @@
+% Letter-size print sheet: the 6x5 notecard at 100% scale, centered, with crop marks.
+% Set \cardpdf, build the card first, then:  tectonic -X compile UnitN_Notecard_Letter.tex
+\documentclass{article}
+\usepackage[letterpaper,margin=0pt]{geometry}
+\usepackage{graphicx}
+\usepackage{eso-pic}
+\usepackage{fontspec}
+\newcommand\cardpdf{notecard.pdf}  % the built 6x5 card, next to this file
+\newcommand\fontdir{/Users/joelr/Library/Fonts/}
+\setmainfont{Bell-Centennial-Std-Address_6527.ttf}[Path=\fontdir, AutoFakeBold=1.8]
+\pagestyle{empty}
+
+% Card sits at x = 1.25..7.25 in, y = 3..8 in (from the page's lower-left), i.e. centered.
+% Crop marks: 0.25 in long, starting 1/16 in outside each corner; center marks at x = 4.25 in.
+\AddToShipoutPictureBG*{\AtPageLowerLeft{\setlength\unitlength{1in}\linethickness{0.4pt}%
+  \put(1.25,3){\includegraphics{\cardpdf}}%
+  % lower-left
+  \put(0.9375,3){\line(1,0){0.25}}\put(1.25,2.6875){\line(0,1){0.25}}%
+  % lower-right
+  \put(7.3125,3){\line(1,0){0.25}}\put(7.25,2.6875){\line(0,1){0.25}}%
+  % upper-left
+  \put(0.9375,8){\line(1,0){0.25}}\put(1.25,8.0625){\line(0,1){0.25}}%
+  % upper-right
+  \put(7.3125,8){\line(1,0){0.25}}\put(7.25,8.0625){\line(0,1){0.25}}%
+  % center fold/cut marks
+  \put(4.25,8.0625){\line(0,1){0.25}}\put(4.25,2.6875){\line(0,1){0.25}}%
+  % caption
+  \put(4.25,2.45){\makebox(0,0)[t]{\parbox[t]{6in}{\centering\fontsize{8}{10}\selectfont
+    \textbf{MATH 215 EXAM N NOTECARD \,—\, 6 × 5 in at actual size}\\
+    Print at \textbf{100\% / ``Actual size''} (not ``Fit to page'' or ``Shrink oversized pages'').\\
+    Cut on the four corner marks; fold or cut on the center marks $\rightarrow$ two 3 × 5 faces (left half = front, right half = back).}}}%
+  % 1-inch scale check bar with end ticks
+  \put(3.75,1.85){\line(1,0){1}}\put(3.75,1.82){\line(0,1){0.06}}\put(4.75,1.82){\line(0,1){0.06}}%
+  \put(4.25,1.76){\makebox(0,0)[t]{\fontsize{8}{10}\selectfont Scale check: this bar should measure exactly 1 in.}}%
+}}
+
+\begin{document}
+\null
+\end{document}

@@ -1,0 +1,175 @@
+% Math 215 Exam 2 notecard (Lessons 10-18). 6in x 5in sheet = two 3x5 faces (cut/fold on the dashed line).
+% Build:  tectonic -X compile Unit2_Notecard_6x5.tex
+\documentclass{article}
+\usepackage[paperwidth=6in,paperheight=5in,margin=0.06in]{geometry}
+\usepackage{fontspec}
+\usepackage{unicode-math}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{eso-pic}
+\usepackage{needspace}
+\usepackage{graphicx}
+
+% ---------- fonts ----------
+\newcommand\bodysize{3.55}      % body text size (pt)
+\newcommand\bodylead{3.774}     % baseline-to-baseline (pt)
+\setmainfont{Bell-Centennial-Std-Address_6527.ttf}[Path=/Users/joelr/Library/Fonts/, AutoFakeBold=1.8, AutoFakeSlant=0.18]
+\setmathfont{FiraMath-Regular.otf}[Scale=0.92]
+\newfontfamily\symf{DejaVuSans.ttf}[Scale=0.85]
+\newfontfamily\stampf{Helvetica 95 Black.ttf}[Path=/Users/joelr/Library/Fonts/, FakeBold=2.5]  % FakeBold = outline stroke weight
+\newcommand\stampheight{28pt}  % height of the STAMP HERE block (fills the leftover space in column 4)
+
+% ---------- page furniture: trim box, column rules, dashed cut line ----------
+\AddToShipoutPictureBG{\AtPageLowerLeft{\setlength\unitlength{1in}%
+  \linethickness{0.25pt}\color{black!30}%
+  \put(0.01,0.01){\framebox(5.98,4.98){}}%
+  \put(1.5,0.08){\line(0,1){4.84}}\put(4.5,0.08){\line(0,1){4.84}}%
+  \color{black!70}\multiput(3,0)(0,0.05){100}{\line(0,1){0.025}}}}
+
+% ---------- spacing ----------
+\setlength\columnsep{0.12in}
+\setlength\parindent{0pt}
+\setlength\parskip{0.15pt plus 0.4pt}
+\pagestyle{empty}
+\tolerance=3000 \emergencystretch=0.8em \hbadness=10000 \hfuzz=0.4pt
+\hyphenpenalty=30 \exhyphenpenalty=30 \binoppenalty=200 \relpenalty=100
+\AtBeginDocument{%
+  \thinmuskip=2mu \medmuskip=2mu plus 1mu minus 1mu \thickmuskip=3mu plus 2mu minus 1mu
+  \lineskiplimit=-0.5pt \lineskip=0.1pt \nulldelimiterspace=0pt \scriptspace=0.1pt}
+
+% ---------- markup ----------
+\newcommand\vb[1]{\symbf{#1}}                 % bold vector
+\newcommand\nm[1]{\lVert #1\rVert}            % norm
+\newcommand\ip[1]{\langle #1\rangle}          % <a,b,c>
+\newcommand\sh[1]{{\setlength\fboxsep{0.18pt}\colorbox{black!22}{\textbf{#1}}}} % equation-sheet tag
+\newcommand\hd[1]{\par\vspace{0.5pt}\needspace{4\baselineskip}\noindent
+  {\setlength\fboxsep{0.45pt}\colorbox{black}{\parbox{\dimexpr\linewidth-2\fboxsep}{\color{white}\bfseries #1}}}\par\nobreak\vspace{0.2pt}\nobreak}
+\newcommand\pt[1]{\par\textbf{{\symf ▸}#1}\ }  % problem type
+\newcommand\ex{\textit{Ex}\ }                  % worked example
+\newcommand\how{\textbf{How:}\ }
+\newcommand\warn{{\symf ⚠}}                    % pitfall
+\newcommand\shc{{\symf ★}}                      % shortcut / extra
+\newcommand\rt{\smash{\surd}}               % prefix radical: \rt2, \rt(x^2+y^2)
+\newcommand\then{\ensuremath{\Rightarrow}}
+
+\begin{document}
+\fontsize{\bodysize}{\bodylead}\selectfont
+\begin{multicols*}{4}
+
+\hd{MATH 215 EXAM 2 \quad L10–L18 \quad (sheet tags explained here)}
+\sh{5R6} = exam equation sheet \textbf{page 5, Right column, 6th formula} from the top (L = left column). \sh{5C1}–\sh{5C6} = p5 centered coordinate-conversion rows; \sh{5top} = p5 cross-product determinant; \sh{6B} = p6 projectile bullets; \sh{6M1}–\sh{6M5} = p6 full-width rows below the bullets ($\int\vb r$, $\int_a^b\vb r$, $s$ 2D, $s$ 3D, $s(t)$); \sh{p3} = derivative | integral table; \sh{p1} trig identities (by name); \sh{p2} unit circle; \sh{p4} = Unit 1 (vectors, lines, planes). \shc = shortcut/extra, \warn = pitfall, \textit{Ex} = worked example with answer.
+
+\hd{L10 QUADRIC SURFACES \quad (not on the sheet — all here)}
+\pt{Identify a surface:} look at the powers. \textbf{1) A variable is missing \then\ cylinder}: draw the curve in the plane of the 2 variables present, slide it parallel to the missing variable's axis (lines = rulings). $x^2+z^2=25$: circle \then\ tube along the $y$-axis; $y=\sin x$: wavy sheet, rulings $\parallel z$; $z=x^2$: parabolic trough along $y$. \textbf{2) One variable only to the 1st power \then\ paraboloid}, axis = that linear variable: squares with the \textbf{same sign} \then\ \textbf{elliptic paraboloid} (bowl) $z=x^2/a^2+y^2/b^2$; \textbf{opposite signs} \then\ \textbf{hyperbolic paraboloid} (saddle) $z=x^2/a^2-y^2/b^2$. \textbf{3) All three squared}: constants right, divide so RHS $=1$: $\pm x^2/a^2\pm y^2/b^2\pm z^2/c^2=1$, then count minus signs: \textbf{0 \then\ ellipsoid} (egg; intercepts $\pm a,\pm b,\pm c$; $a{=}b{=}c$ \then\ sphere); \textbf{1 \then\ hyperboloid of one sheet} (hourglass; axis = the minus variable); \textbf{2 \then\ hyperboloid of two sheets} (two bowls; axis = the plus variable; no points for $|z|<c$ if axis $z$); 3 \then\ no points. \textbf{RHS $=0$} with mixed signs \then\ \textbf{elliptic cone} (vertex at center, axis = the odd-sign variable). RHS $=-1$? multiply by $-1$ first. $a,b,c>0$ are semi-axes $=\rt\text{denominators}$ ($x^2/4$ \then\ $a=2$). \shc Axis = the odd one out (the linear variable or the lone sign).
+
+\pt{Traces} (surface $\cap$ a plane: fix one variable). Ellipsoid: ellipses every way. 1 sheet: $\perp$ axis ellipses, $\parallel$ axis hyperbolas. 2 sheets: $\perp$ axis ellipse or nothing, $\parallel$ hyperbolas. Cone: $\perp$ axis ellipses (point at vertex), $\parallel$ hyperbolas; coordinate planes containing the axis \then\ 2 crossing lines. Elliptic parab.: $\perp$ ellipses, $\parallel$ parabolas. Hyperbolic parab.: $\perp$ hyperbolas (2 lines at vertex level), $\parallel$ parabolas opening opposite ways. \how sub the plane ($xz$-plane \then\ $y=0$; $yz$ \then\ $x=0$; $xy$ \then\ $z=0$; ``plane $x=3$'' \then\ $x=3$), simplify, name the 2D curve: $u^2/p^2+v^2/q^2=1$ ellipse (circle if $p=q$); $u^2/p^2-v^2/q^2=1$ hyperbola opening along $u$ (the + one); $v=ku^2$ parabola; squares $=0$ \then\ point (sum) or 2 lines (difference); sum of squares $=$ negative \then\ empty. \ex $z^2/25+x^2/9-y^2/81=0$ in $x=3$: $z^2/25+1-y^2/81=0$ \then\ $y^2/81-z^2/25=1$ (hyperbola along $y$). \ex $x^2/4+y^2/25+z^2/49=1$ in $xz$-plane: ellipse $x^2/4+z^2/49=1$.
+
+\pt{Standard form:} divide by the constant: $3x^2+12y^2+4z^2=12$ ($\div12$) \then\ $x^2/4+y^2/1+z^2/3=1$. Coefficient $k$ on $x^2$ \then\ denominator $1/k$ ($8x^2=x^2/(1/8)$).
+
+\pt{Center / vertex (complete the square):} group by variable; \textbf{factor out each $x^2$ coefficient}; $x^2+bx=(x+b/2)^2-b^2/4$; multiply what you subtracted by the factored coefficient; constants to the right. $(x-h)^2$ \then\ center $h$ (\warn\ sign flips: $(x+1)^2$ \then\ $h=-1$). Paraboloid: isolate the linear variable and factor its coefficient ($24z+24=24(z+1)$ \then\ $l=-1$); vertex = ``center''. \ex (Quiz 3) $9x^2+4y^2+36z^2+18x-8y-72z+13=0$: $9(x+1)^2-9+4(y-1)^2-4+36(z-1)^2-36+13=0$ \then\ $9(x+1)^2+4(y-1)^2+36(z-1)^2=36$: ellipsoid, center $(-1,1,1)$. \ex $4x^2-6y^2-8x+24y-24z-20=0$: $4(x-1)^2-4-6(y-2)^2+24-24z-20=0$ \then\ $z=(x-1)^2/6-(y-2)^2/4$: saddle, center $(1,2,0)$. \ex $3x^2+5y^2+6x+20y-15z+23=0$ \then\ $z=(x+1)^2/5+(y+2)^2/3$: center $(-1,-2,0)$.
+
+\hd{L11 CYLINDRICAL \& SPHERICAL COORDINATES}
+\textbf{Cylindrical $(r,\theta,z)$}: $r$ = distance from the $z$-axis ($\ge0$; polar radius of the shadow $(x,y)$); $\theta$ = angle in the $xy$-plane, CCW from $+x$; $z$ = ordinary height. \textbf{Spherical $(\rho,\theta,\phi)$}: $\rho$ = distance from the origin ($\ge0$); $\theta$ = same as cylindrical; $\phi$ = angle \textbf{down from the $+z$-axis}, $0\le\phi\le\pi$ ($\phi<\pi/2$ above the $xy$-plane, $=\pi/2$ on it, $>\pi/2$ below). Links: $r=\rho\sin\phi$, $z=\rho\cos\phi$, $\rho^2=r^2+z^2=x^2+y^2+z^2$.
+
+\pt{Convert a point:} pick the row: rect\then cyl \sh{5C1}; cyl\then rect \sh{5C2}; rect\then sph \sh{5C3}; sph\then rect \sh{5C4}; sph\then cyl \sh{5C5}; cyl\then sph \sh{5C6}. \warn\ \textbf{$\theta$ quadrant fix} ($\tan^{-1}$ only returns QI/QIV): sketch the signs of $(x,y)$ first. $x>0,y\ge0$: $\theta=\tan^{-1}(y/x)$; \textbf{$x<0$} (QII, QIII): $\tan^{-1}(y/x)+180°$ ($+\pi$); $x>0,y<0$ (QIV): $+360°$ ($+2\pi$); $x=0$: $90°$ if $y>0$, $270°$ if $y<0$. $\phi=\cos^{-1}(z/\rho)$ needs \textbf{no} fix ($\cos^{-1}\in[0,\pi]$). \warn\ \textbf{``$\theta=\theta$'': copy $\theta$ exactly as given} (Quiz 3 lost a point turning $-\pi/2$ into $3\pi/2$). Rationalize: $-1/\rt82=-\rt82/82$. ``Exact'' = radicals and $\pi$; ``degrees, 2 dp'' = decimals (calculator in degree mode). \ex $(-4,-8,6)$\then sph: $\rho=\rt116\approx10.77$, $\theta=\tan^{-1}2+180°=243.43°$, $\phi=\cos^{-1}(6/\rt116)=56.15°$. \ex $(-1,4,-6)$\then cyl: $(\rt17,\,104.04°,\,-6)$ [QII: $\tan^{-1}(-4)+180°$]. \ex cyl $(9,-\pi/2,-1)$\then sph: $(\rt82,\,-\pi/2,\,\cos^{-1}(-\rt82/82))$. \ex cyl $(4,3\pi/4,-1)$\then rect: $(-2\rt2,\,2\rt2,\,-1)$. \ex sph $(10,\pi/3,5\pi/4)$\then rect: $(-5\rt2/2,-5\rt6/2,-5\rt2)$.
+
+\pt{Convert an equation:} \textbf{cyl\then rect}: make $r\cos\theta$ ($=x$), $r\sin\theta$ ($=y$), $r^2$ ($=x^2+y^2$) appear — \textbf{multiply both sides by $r$} if needed; $\sec\theta=1/(\cos\theta)$. \ex $r=10\sec\theta$ \then\ $r\cos\theta=10$ \then\ $x=10$ (a plane). \ex $r=8\sin\theta$ \then\ $r^2=8r\sin\theta$ \then\ $x^2+y^2=8y$. \ex $r^2+(z-4)^2=50$ \then\ $x^2+y^2+(z-4)^2=50$. \shc \textbf{Double angle} \sh{p1}: $r^2\cos2\theta=r^2(\cos^2\theta-\sin^2\theta)=x^2-y^2$; $r^2\sin2\theta=2(r\cos\theta)(r\sin\theta)=2xy$. \textbf{rect\then cyl}: $x^2+y^2\to r^2$, $x\to r\cos\theta$, $y\to r\sin\theta$, then solve for $r$ (dividing by $r$ is fine). \ex $x^2+(y-4)^2=16$ \then\ $x^2+y^2-8y=0$ \then\ $r^2=8r\sin\theta$ \then\ $r=8\sin\theta$. \textbf{sph$\leftrightarrow$rect}: $\rho^2=x^2+y^2+z^2$, $\rho\cos\phi=z$, $\rho\sin\phi=r=\rt(x^2+y^2)$; multiply by $\rho$ to create $\rho\cos\phi$. \ex $\rho=2\cos\phi$ \then\ $\rho^2=2\rho\cos\phi$ \then\ $x^2+y^2+z^2=2z$ (sphere, center $(0,0,1)$, radius 1). \textbf{Shapes}: $r=c$ cylinder around the $z$-axis; $\theta=c$ vertical half-plane; $z=c$ horizontal plane; $\rho=c$ sphere; $\phi=c$ cone around the $z$-axis ($\phi=\pi/4$: $z=\rt(x^2+y^2)$; $\phi=\pi/2$: $xy$-plane); $\rho\sin\phi=c$ \then\ cylinder $r=c$; $\rho\cos\phi=c$ \then\ plane $z=c$.
+
+\hd{L12 VECTOR-VALUED FUNCTIONS}
+$\vb r(t)=f(t)\vb i+g(t)\vb j+h(t)\vb k=\ip{f(t),g(t),h(t)}$ \sh{5L1}\,\sh{5L2}: input = one number $t$ (parameter, usually time); output = a vector whose tip traces a curve. $f,g,h$ = \textbf{component functions} = the $x,y,z$ coordinates = coefficients of $\vb i,\vb j,\vb k$. 2 components \then\ plane curve; 3 \then\ space curve.
+
+\pt{Component functions:} read off the coefficients; constants are fine: $8\vb i-7\vb j+(-6t-1)\vb k$ \then\ $f=8$, $g=-7$, $h=-6t-1$. Missing $\vb j$ \then\ $g=0$. \warn\ Knewton boxes: type only the coefficient (``3'', not ``3i'' — Quiz 3).
+
+\pt{Evaluate $\vb r(a)$:} plug $t=a$ into every component. Any component undefined ($\tan(\pi/2)$, $\sec(\pi/2)$, $\ln0$, $\div0$, $\rt\text{neg}$) \then\ $\vb r(a)$ DNE. \ex $\ip{3\tan t,4\sec t,5t}$ at $2\pi/3$: $\ip{-3\rt3,-8,10\pi/3}$; at $\pi/2$: DNE.
+
+\pt{Domain:} intersect every component's domain: $\rt u$: $u\ge0$; $1/u$: $u\ne0$; $\ln u$: $u>0$; $\tan,\sec$: $t\ne\pi/2+k\pi$; $\cot,\csc$: $t\ne k\pi$ ($k\in\mathbb Z$). \ex $\ip{t^4,\rt(t-8),4/(t-7)}$: $t\ge8$ (7 already excluded) \then\ $[8,\infty)$.
+
+\pt{Limit} \sh{5L3}: limit of each component separately. Plug in first; if $0/0$: factor/cancel, conjugate, or \textbf{L'Hôpital} ($\lim f/g=\lim f'/g'$). One component DNE \then\ the whole limit DNE. $t\to\infty$: $e^{-t}\to0$, $t^n/e^t\to0$, poly/poly: compare top degrees, $\tan^{-1}t\to\pi/2$, $(\sin t)/t\to0$. \ex $(\rt t-8)/(t-64)=(\rt t-8)/[(\rt t-8)(\rt t+8)]=1/(\rt t+8)\to1/16$ as $t\to64$. \ex $(\rt t-3)/(t-9)\to1/6$. $\lim_{u\to0}(\sin u)/u=1$.
+
+\pt{Continuity} at $t=a$: (1) $\vb r(a)$ exists, (2) $\lim_{t\to a}\vb r(t)$ exists, (3) they are equal — check every component. ``Where is it continuous?'' = its domain (polynomials, roots, exp, ln, trig and their combinations are continuous wherever defined). \ex $\ip{-5\tan t,-3\cos t,-3\sin t}$: $t\ne\pi/2+k\pi$. \ex $\ip{-2t^2+3t-2,\rt t/(6t+9),5t}$: $t\ge0$.
+
+\pt{Graph / recognize:} eliminate $t$ (use $\cos^2+\sin^2=1$). $\ip{a\cos t,a\sin t}$ circle radius $a$ (CCW); $\ip{a\cos t,b\sin t}$ ellipse; $\ip{a\cos t,a\sin t,bt}$ \textbf{helix} (circle of radius $a$ in $xy$, climbing in $z$); $\ip{x_0+at,y_0+bt,z_0+ct}$ line through $(x_0,y_0,z_0)$, direction $\ip{a,b,c}$; $\ip{t,t^2,t^3}$ twisted cubic. Plot a few $t$ values to get the direction of travel. Segment $P\to Q$: $\vb r(t)=(1-t)\vb P+t\vb Q$, $0\le t\le1$. \shc Curve where 2 surfaces meet: parameterize the simpler one ($x^2+y^2=4$ \then\ $x=2\cos t$, $y=2\sin t$), plug into the other for $z$ ($z=xy$ \then\ $z=4\sin t\cos t$).
+
+\hd{L13 CALCULUS OF VECTOR FUNCTIONS}
+\pt{Derivative} $\vb r'(t)=\ip{f'(t),g'(t),h'(t)}$ \sh{5L4}: differentiate each component (rules: TOOLKIT). $\vb r'(t_0)$ = \textbf{tangent vector} at the point $\vb r(t_0)$ (= velocity; points in the direction of motion). Differentiate first, then plug in $t$. \ex $\ip{3\cos t^2,4\sin t^2,\tan t^2}'=\ip{-6t\sin t^2,\ 8t\cos t^2,\ 2t\sec^2t^2}$. \ex $\ip{e^t\sin t,e^t\cos t,-e^{2t}}'=\ip{e^t(\sin t+\cos t),\ e^t(\cos t-\sin t),\ -2e^{2t}}$. \textbf{Tangent line} at $t_0$: $\vb L(s)=\vb r(t_0)+s\,\vb r'(t_0)$ \sh{4R13}.
+
+\pt{Derivative properties} ($c$ = constant, $f$ = scalar function, $\vb r,\vb u$ = vector functions): $[c\vb r]'=c\vb r'$ \sh{5L5}; $[\vb r\pm\vb u]'=\vb r'\pm\vb u'$ \sh{5L6}; $[f\vb u]'=f'\vb u+f\vb u'$ \sh{5L7}; $[\vb r\cdot\vb u]'=\vb r'\cdot\vb u+\vb r\cdot\vb u'$ \sh{5L8} (answer is a \textbf{scalar} function); $[\vb r\times\vb u]'=\vb r'\times\vb u+\vb r\times\vb u'$ \sh{5R1} (\warn\ keep the order; answer is a vector); chain $[\vb r(f(t))]'=f'(t)\,\vb r'(f(t))$ \sh{5R2}: find $\vb r'$, put $f(t)$ in for $t$, multiply every component by $f'(t)$. \shc For $\cdot$, $\times$, chain: building the combined function first, then differentiating, gives the same answer (often fewer mistakes). \ex $\vb r=\ip{-5t^3,e^{8t},-t^4}$, $\vb u=\ip{-2t,8\sin t,-3t^2}$: $\vb r\cdot\vb u=10t^4+8e^{8t}\sin t+3t^6$ \then\ $d/dt=40t^3+64e^{8t}\sin t+8e^{8t}\cos t+18t^5$. \ex $(d/dt)[-3\vb r]=-3\vb r'$. \ex $\vb r=\ip{6e^{3t},6e^{-6t},-4e^{-5t}}$, $f=t^5-3t$: $(5t^4-3)\ip{18e^{3f},-36e^{-6f},20e^{-5f}}$.
+
+\pt{Unit tangent} $\vb T(t)=\vb r'(t)/\nm{\vb r'(t)}$ \sh{5R3}: unit (length 1) vector in the direction of motion. \how $\vb r'$ \then\ (plug in $t_0$ if given) \then\ $\nm{\ip{a,b,c}}=\rt(a^2+b^2+c^2)$ \then\ divide each component. Needs $\vb r'\ne\vb0$. Simplify the norm (factor $t^2$; $\sin^2+\cos^2=1$). \ex $\vb r=-2t\vb i+t\vb j$, $t=3$: $\vb r'=\ip{-2,1}$, $\nm{\vb r'}=\rt5$, $\vb T=\ip{-2\rt5/5,\rt5/5}$. \ex $\ip{3t,-5t,-t^3}$ at $t=5$: $\vb r'=\ip{3,-5,-75}$ \then\ $\vb T=(1/\rt5659)\ip{3,-5,-75}$.
+
+\pt{Integrate} \sh{6M1}\,\sh{6M2}: integrate each component. Indefinite: $+\vb C$, a constant \textbf{vector} $\ip{C_1,C_2,C_3}$ (write $+\vb C$ once). Definite: same limits on every component \then\ a vector of numbers. \ex $\int\ip{-2\cos3t,5\cos4t}dt=\ip{-(2/3)\sin3t,(5/4)\sin4t}+\vb C$. \ex $\int_0^{\pi/3}\ip{\sin2t,\tan t,e^{-2t}}dt=\ip{3/4,\ \ln2,\ (1-e^{-2\pi/3})/2}$ (\warn\ $\int\tan t\,dt=-\ln|\cos t|$ is not on the sheet). \ex $\int_1^3\ip{2t+4,3t^2-4t,3t^2-4}dt=\ip{16,10,18}$.
+
+\pt{Initial-value problem:} given $\vb r'$ (or $\vb v$) and $\vb r(t_0)$: integrate, plug in $t_0$, solve each $C_i$. \ex (Quiz 4) $\vb v=\ip{-5t^2-3,-3t^3+1,-2t}$, $\vb r(0)=\ip{-3,0,0}$ \then\ $\vb r=\ip{-(5/3)t^3-3t-3,\ -(3/4)t^4+t,\ -t^2}$.
+
+\hd{L14 ARC LENGTH \& CURVATURE}
+\pt{Arc length} $s=\int_a^b\nm{\vb r'(t)}\,dt$ \sh{6M3} (2D) \sh{6M4} (3D): distance along the curve from $t=a$ to $t=b$; integrand = \textbf{speed} $\rt(f'^2+g'^2+h'^2)$. \how $\vb r'$ \then\ square and add \then\ \textbf{simplify before taking the root} ($\sin^2+\cos^2=1$; factor out $t^2$ or $e^{2t}$; spot perfect squares) \then\ integrate \then\ $F(b)-F(a)$. $\rt(t^2)=|t|=t$ for $t\ge0$. \ex $\ip{3t-2,4t+5}$, $[0,5]$: speed 5 \then\ $s=25$. \ex $\ip{\cos t^2,\sin t^2,t^2}$, $[0,\rt(4\pi)]$: $\vb r'=2t\ip{-\sin t^2,\cos t^2,1}$, speed $2\rt2\,t$ \then\ $s=\rt2\,t^2\big|_0^{\rt(4\pi)}=4\rt2\,\pi$. \ex (Quiz 4) $\ip{-t^2,-2t^2}$, $[4,10]$: speed $2\rt5\,t$ \then\ $s=\rt5(100-16)=84\rt5\approx187.830$. \shc Helix $\ip{a\cos t,a\sin t,bt}$: speed $\rt(a^2+b^2)$.
+
+\pt{Arc-length function} $s(t)=\int_a^t\nm{\vb r'(u)}\,du$ \sh{6M5}: distance traveled from the start $t=a$ up to time $t$ ($u$ = dummy variable: write the speed in $u$, integrate, plug in $t$ and $a$). $ds/dt=\nm{\vb r'(t)}$ \sh{6L4}. \ex $\ip{-3\sin t,7t,-3\cos t}$, $t\ge0$: speed $\rt(9+49)$ \then\ $s=\rt58\,t$.
+
+\pt{Arc-length parameterization $\vb r(s)$:} 1) speed $\nm{\vb r'}$; 2) $s=\int_{t_0}^t\nm{\vb r'(u)}du$ ($t_0$ = the given start); 3) solve for $t$ in terms of $s$; 4) substitute into \textbf{every} component. Check: $\nm{d\vb r/ds}=1$ and $s=0$ gives the start point. \ex helix $\ip{\cos t,\sin t,t}$: $s=\rt2\,t$ \then\ $\vb r(s)=\ip{\cos(s/\rt2),\sin(s/\rt2),s/\rt2}$. \ex $\ip{t+3,2t-4,2t}$, $t\ge3$: speed 3, $s=3(t-3)$, $t=3+s/3$ \then\ $\ip{6+s/3,\ 2+2s/3,\ 6+2s/3}$. \ex (Quiz 4) $e^{2t}\ip{-2,6,-3}$ from $t=0$: speed $14e^{2t}$, $s=7e^{2t}-7$. \shc Solve for the block, not $t$: $e^{2t}=(s+7)/7$ \then\ $\vb r(s)=((s+7)/7)\ip{-2,6,-3}$. \ex $s=5t^2$ \then\ $t=\rt(s/5)$. \shc Line $\vb r=\vb P+t\vb d$: $\vb r(s)=\vb r(t_0)+s\vb d/\nm{\vb d}$; constant speed $c$: $t=t_0+s/c$.
+
+\pt{Curvature $\kappa$:} how sharply the curve bends per unit length ($\kappa\ge0$; line: 0; circle of radius $R$: $1/R$; \textbf{radius of curvature} $=1/\kappa$). Pick the form that matches what you have: \textbf{(a)} $\kappa=\nm{d\vb T/ds}=\nm{\vb T'(s)}$ \sh{5R4}: only when the parameter is arc length $s$; \shc then $\kappa=\nm{\vb r''(s)}$. \ex $\ip{15\cos(s/15),15\sin(s/15)}$ \then\ $\kappa=1/15$. \textbf{(b)} $\kappa=\nm{\vb T'(t)}/\nm{\vb r'(t)}$ \sh{5R5}: any $t$, when you already have $\vb T$. \textbf{(c)} $\kappa=\nm{\vb r'\times\vb r''}/\nm{\vb r'}^3$ \sh{5R6}: usually easiest for any $\vb r(t)$ (\warn\ cube the speed; \shc at a given $t$ plug in first, then cross numeric vectors); 2D: append $z=0$ \then\ $\kappa=|x'y''-y'x''|/(x'^2+y'^2)^{3/2}$. \textbf{(d)} $\kappa=|y''|/[1+(y')^2]^{3/2}$ \sh{5R7}: graph $y=f(x)$; $y',y''$ = $d/dx$ derivatives evaluated at the $x$-value. \ex $y=3x^2-2x+4$, $x=2$: $y'=10$, $y''=6$ \then\ $\kappa=6/101^{3/2}\approx0.00591$. \ex (Quiz 4) $y=8\cos6x$, $x=\pi/6$: $y'=-48\sin\pi=0$, $y''=-288\cos\pi=288$ \then\ $\kappa=288$. \shc Helix $\ip{a\cos t,a\sin t,bt}$: $\kappa=a/(a^2+b^2)$ ($a=4$, $b=3$ \then\ $4/25$).
+
+\pt{Unit normal $\vb N$ \& binormal $\vb B$:} $\vb N=\vb T'(t)/\nm{\vb T'(t)}$ \sh{5R8}: unit vector $\perp\vb T$, pointing to the inside of the bend (toward the osculating circle's center). \how get $\vb T(t)$ simplified as a function of $t$, pull constant factors out, differentiate, normalize. Needs $\vb T'\ne\vb0$ (a line has no $\vb N$). $\vb B=\vb T\times\vb N$ \sh{6L1}: unit, $\perp$ both (cross product \sh{5top}); \shc $\vb B=(\vb r'\times\vb r'')/\nm{\vb r'\times\vb r''}$ (no $\vb N$ needed). \shc $\vb N$ at one point without $\vb T'$: $\vb N=(\vb a-a_T\vb T)/a_N$ (see L15). \shc 2D: $\vb N=\pm\ip{-T_2,T_1}$, pick the sign with $\vb N\cdot\vb r''>0$. \ex helix $\ip{\cos t,\sin t,t}$: $\vb T=(1/\rt2)\ip{-\sin t,\cos t,1}$, $\vb T'=(1/\rt2)\ip{-\cos t,-\sin t,0}$, $\vb N=\ip{-\cos t,-\sin t,0}$, $\vb B=(1/\rt2)\ip{\sin t,-\cos t,1}$. \textbf{Planes at $P=\vb r(t_0)$} (plane eq. \sh{4R16} with normal $\vb n$): \textbf{osculating} plane contains $\vb T,\vb N$, $\vb n=\vb B$ (or $\vb r'\times\vb r''$); \textbf{normal} plane contains $\vb N,\vb B$, $\vb n=\vb T$ (or $\vb r'$). \textbf{Osculating circle}: radius $1/\kappa$, center $\vb r(t_0)+(1/\kappa)\vb N(t_0)$, lies in the osculating plane. \ex helix at $t=\pi/2$: $P=(0,1,\pi/2)$, $\vb B=(1/\rt2)\ip{1,0,1}$ \then\ osculating plane $x+z=\pi/2$; normal plane ($\vb n\parallel\vb T\parallel\ip{-1,0,1}$): $-x+z=\pi/2$. $\vb T,\vb N,\vb B$ = mutually $\perp$ unit vectors (TNB frame); $\vb N=\vb B\times\vb T$, $\vb T=\vb N\times\vb B$.
+
+\hd{L15 MOTION IN SPACE}
+\pt{Velocity, acceleration, speed:} $\vb v=\vb r'$ \sh{6L2} (vector, tangent to the path); $\vb a=\vb v'=\vb r''$ \sh{6L3} (vector); speed $=\nm{\vb v}=\nm{\vb r'}=ds/dt$ \sh{6L4} (scalar $\ge0$). Units: ft, ft/s, ft/s$^2$. \textbf{Distance traveled} $=\int_a^b\nm{\vb v}\,dt$ (arc length, scalar) vs \textbf{displacement} $=\vb r(b)-\vb r(a)=\int_a^b\vb v\,dt$ (vector). \ex $\ip{t^2-3t,2t-4,t+2}$ at $t=1$: $\vb v=\ip{-1,2,1}$, $\vb a=\ip{2,0,0}$, speed $\rt6$. \ex $\ip{-\sin t,-4\cos t,0}$ \then\ $\vb v=\ip{-\cos t,4\sin t,0}$.
+
+\pt{Position from acceleration:} $\vb v=\int\vb a\,dt+\vb C_1$, use $\vb v(0)$; $\vb r=\int\vb v\,dt+\vb C_2$, use $\vb r(0)$ (one constant per component). Constant $\vb a$: $\vb v=\vb v_0+\vb a t$, $\vb r=\vb r_0+\vb v_0t+(1/2)\vb at^2$. \ex $\vb a=\ip{-7,1,-2}$, $\vb v(0)=\ip{-1,1,1}$, $\vb r(0)=\vb0$ \then\ $\vb r=\ip{-(7/2)t^2-t,\ (1/2)t^2+t,\ -t^2+t}$.
+
+\pt{Tangential \& normal components:} $\vb a=a_T\vb T+a_N\vb N$ \sh{6R2} $=v'\,\vb T+v^2\kappa\,\vb N$ \sh{6L5} ($v$ = speed, $v'$ = its rate of change); $\vb a$ always lies in the osculating plane. $a_T$ = how fast the speed changes (+ speeding up, $-$ slowing, 0 = constant speed): $a_T=\vb a\cdot\vb T=(\vb v\cdot\vb a)/\nm{\vb v}$ \sh{6L6}. $a_N$ = turning (centripetal, $\ge0$): $a_N=\vb a\cdot\vb N=\nm{\vb v\times\vb a}/\nm{\vb v}=\rt(\nm{\vb a}^2-a_T^2)$ \sh{6R1} $=\kappa v^2$. \how $\vb v$, $\vb a$ (plug in $t$ if given) \then\ $\vb v\cdot\vb a$ and $\nm{\vb v}$ \then\ $a_T$ \then\ \shc $a_N$ by the root form (no cross product). $\nm{\vb a}^2=a_T^2+a_N^2$. \shc Constant speed $\iff\vb v\cdot\vb a=0$ ($\vb v\perp\vb a$). \ex $\ip{8t^3-5,-2t^2,-8t-3}$: $\vb v=\ip{24t^2,-4t,-8}$, $\vb a=\ip{48t,-4,0}$ \then\ $a_T=(1152t^3+16t)/\rt(576t^4+16t^2+64)$. \ex (Quiz 4) $\ip{5t-9,3-6t,-2t}$: $\vb a=\vb0$ \then\ $a_T=0$. \ex $\ip{-4\cos(4\pi t/3),4\sin(4\pi t/3)}$: speed $16\pi/3$ constant \then\ $a_T=0$, $a_N=v^2/R=64\pi^2/9$ (any $t$).
+
+\pt{Friction / centripetal force:} $F=m\,a_N=mv^2/R$ ($m$ = mass in kg, $v$ = speed in m/s, $R$ = turn radius in m, $\kappa=1/R$; $F$ in N). \ex 2197 kg, 28 m/s, $R=19$ m \then\ $F=(2197\cdot784)/19\approx90{,}655$ N.
+
+\pt{Projectile} \sh{6B}: launch angle $\theta$ above horizontal, initial speed $v_0$, launch height $h$ (\warn\ the sheet's ``$x_0$'' in the $\vb j$ part is $h$), $g=9.8$ m/s$^2$ or 32 ft/s$^2$: $x(t)=(v_0\cos\theta)t$, $y(t)=h+(v_0\sin\theta)t-(1/2)gt^2$, $v_y=v_0\sin\theta-gt$. \textbf{Max height}: $v_y=0$ \then\ $t_{top}=(v_0\sin\theta)/g$, $y_{max}=h+(v_0\sin\theta)^2/(2g)$. \textbf{Lands} when $y=0$ (quadratic formula, + root): $t=(v_0\sin\theta+\rt((v_0\sin\theta)^2+2gh))/g$. \textbf{Range} $=x(t_{land})$. $h=0$: $t=(2v_0\sin\theta)/g$, range $(v_0^2\sin2\theta)/g$; solve backwards for $v_0$ or $\theta$ from a given range. \ex 600 ft/s, $30°$, 100-ft cliff: $v_0\sin\theta=300$, $y_{max}=100+300^2/64=1506.25$ ft; $16t^2-300t-100=0$ \then\ $t\approx19.08$ s; range $\approx300\rt3(19.08)\approx9913$ ft. \ex 156 m, 265 m/s, $49°$ \then\ $t\approx41.6$ s, range $\approx7229$ m.
+
+\hd{L16 FUNCTIONS OF SEVERAL VARIABLES}
+$z=f(x,y)$: input = a point $(x,y)$ in the domain $D\subseteq\mathbb R^2$; output = one number $z$ (a height); graph = a surface. $w=f(x,y,z)$: 3 inputs (domain = region of space).
+
+\pt{Domain:} every input where the formula works; intersect all restrictions: denominator $\ne0$; even-root radicand $\ge0$; root in a denominator $>0$; $\ln u$: $u>0$; $\sin^{-1}u,\cos^{-1}u$: $-1\le u\le1$. Polynomials, $\sin$, $\cos$, $e^u$: all of $\mathbb R^2$. Answer as an inequality / $\{(x,y)\mid\dots\}$ (Knewton: type it; $\mathbb R^2$ if everything). Sketch: boundary = the equality curve (solid if included, dashed if not); test a point. \ex (Quiz 4) $\rt(3x^2+5y^2-15)$: $3x^2+5y^2\ge15$ (outside an ellipse). \ex $\rt(9x^2-5y^2-45)$: $9x^2-5y^2\ge45$. \ex $xy/(-7x^2+8y)$: $y\ne(7/8)x^2$. \ex $\cos\rt(-6x-9y)$: $2x+3y\le0$. \ex $(x-y-z)/\rt(6-x^2-3y^2-9z^2)$: $x^2+3y^2+9z^2<6$.
+
+\pt{Range:} all possible outputs: bound each piece (squares $\ge0$; $\rt\ge0$; $\rt(c-\dots)\le\rt c$) and check the ends are actually reached. \ex $-4x^2-9y^2$: $(-\infty,0]$. \ex $-1-\rt(36-y^2)$: root $\in[0,6]$ \then\ $[-7,-1]$. \ex $6-\rt(x^2+y^2-25)$: $(-\infty,6]$. $[\,]$ includes the endpoint, $(\,)$ excludes; $\infty$ always gets $($.
+
+\pt{Evaluate:} plug in carefully: $-5x^2-2y-4$ at $(-5,1)$: $-5(25)-2-4=-131$ (square first, then multiply by $-5$).
+
+\pt{Level curve} for value $c$: set $f(x,y)=c$, simplify \then\ a curve in the $xy$-plane (contour). Contour map = many level curves; close together = steep. Families: $x^2+y^2=c$ circles; $x^2-y^2=c$ or $xy=c$ hyperbolas; $ax+by=c$ parallel lines; $y-x^2=c$ parabolas. \ex $3x+7y-7=2$ \then\ $3x+7y=9$. \ex (Quiz 4) $8x^2+5y^2=2$ (ellipse). \ex $-2+\sin(-7x-7y)=-1$ \then\ $\sin(-7x-7y)=1$ \then\ $-7x-7y=\pi/2+2k\pi$ \then\ $y=-x-\pi/14+2k\pi/7$, $k\in\mathbb Z$. General solutions: $\sin u=1$: $u=\pi/2+2k\pi$; $\sin u=-1$: $3\pi/2+2k\pi$; $\sin u=0$: $k\pi$; $\cos u=1$: $2k\pi$; $\cos u=0$: $\pi/2+k\pi$; $\cos u=-1$: $\pi+2k\pi$.
+
+\pt{Vertical trace:} fix an \textbf{input}: $x=a$ \then\ $z=f(a,y)$ (curve in the plane $x=a$, $\parallel yz$-plane); $y=b$ \then\ $z=f(x,b)$ ($\parallel xz$-plane). A level curve fixes the \textbf{output} $z=c$. \ex $6x+8y^2$, $x=5$ \then\ $z=30+8y^2$. \ex $-5\cos4x\sin3y$, $y=\pi/6$ \then\ $z=-5\cos4x$. \ex (Quiz 4) $7x^2-5y$, $y=0$ \then\ $z=7x^2$.
+
+\pt{Level surfaces \& graphs:} $f(x,y,z)=c$ is a surface (e.g. $x^2+y^2+z^2=c$: spheres). $z=\rt(R^2-x^2-y^2)$ upper hemisphere; $z=\rt(x^2+y^2)$ cone; $z=x^2+y^2$ paraboloid; $z=ax+by+c$ plane (plot the intercepts).
+
+\hd{L17 PARTIAL DERIVATIVES}
+\pt{First partials:} $f_x=\partial f/\partial x$: differentiate in $x$ treating $y$ (and $z$) as \textbf{constants}; $f_y$: treat $x$ (and $z$) as constants. $f_x=\lim_{h\to0}(f(x+h,y)-f(x,y))/h$ = slope of the surface in the $x$-direction. Frozen variables act like numbers: $\partial_x(3xy)=3y$; $\partial_x(2y^2)=0$; $\partial_x e^{xy}=ye^{xy}$; $\partial_y(x^2y^3)=3x^2y^2$. Chain rule: $\partial_x\sin(x^2y-2x+4)=(2xy-2)\cos(\cdot)$, $\partial_y=x^2\cos(\cdot)$; (Quiz 4) $\partial_y\tan(x+7y^3)=21y^2\sec^2(x+7y^3)$. Product rule only when \textbf{both} factors contain the variable: $\partial_x[e^{2xy}\sin2x\sin2y]=2ye^{2xy}\sin2x\sin2y+2e^{2xy}\cos2x\sin2y$. Quotient: $\partial_y(u/v)=(u_yv-uv_y)/v^2$. \shc Implicit ($z$ defined by $F(x,y,z)=0$): $z_x=-F_x/F_z$, $z_y=-F_y/F_z$ (p6 Unit 3 block), or differentiate both sides in $x$ treating $z$ as $z(x,y)$ and solve for $z_x$. \shc ``Show $f$ satisfies $f_{xx}+f_{yy}=0$'': compute those partials, substitute, simplify.
+
+\pt{3+ variables:} $f_x,f_y,f_z$: freeze the other two. \ex $6y\sin(9x^4z^6+2y^3)$: $f_x=216x^3yz^6\cos(\cdot)$; $f_y=6\sin(\cdot)+36y^3\cos(\cdot)$ (product!); $f_z=324x^4yz^5\cos(\cdot)$.
+
+\pt{Higher order:} $f_{xx}=(f_x)_x$, $f_{yy}=(f_y)_y$, $f_{xy}=(f_x)_y$ (\warn\ subscripts read left\then right: $x$ first), $f_{yx}=(f_y)_x$; operator form $\partial^2f/\partial y\,\partial x=f_{xy}$ (rightmost first). From a table/contour map: $f_x(a,b)\approx(f(a+h,b)-f(a,b))/h$ (average the forward and backward estimates). \textbf{Clairaut}: mixed partials continuous \then\ $f_{xy}=f_{yx}$ (\shc do the easier order; use the other as a check). Third order: $f_{yyx}=((f_y)_y)_x$. \ex (Quiz 4) $3x+5y^7+6xy-2y^9$: $f_y=35y^6+6x-18y^8$, $f_{yy}=210y^5-144y^7$. \ex $5x^2-4xy^8+3xy-1$: $f_{yyx}=-224y^6$. \ex $(3x^5-3y^5-3)^4$: $f_x=60x^4(\cdot)^3$, $f_{xy}=-2700x^4y^4(\cdot)^2$. \ex $3e^{8x}\cos(2yz^2)$: $f_{xyz}=-96ze^{8x}\sin(2yz^2)-192yz^3e^{8x}\cos(2yz^2)$.
+
+\hd{L18 TANGENT PLANES, LINEARIZATION, DIFFERENTIALS}
+\pt{Tangent plane} to $z=f(x,y)$ at $(x_0,y_0)$: $z=f(x_0,y_0)+f_x(x_0,y_0)(x-x_0)+f_y(x_0,y_0)(y-y_0)$ \sh{6R3}. \how 1) $z_0=f(x_0,y_0)$; 2) $f_x,f_y$ as formulas; 3) plug in $(x_0,y_0)$ \then\ two numbers (slopes in the $x$- and $y$-directions); 4) assemble (simplify to $z=Ax+By+C$ only if asked). Horizontal tangent plane $\iff f_x=f_y=0$. Normal vector $\ip{f_x,f_y,-1}$; normal line $\ip{x_0,y_0,z_0}+t\ip{f_x,f_y,-1}$. \shc Surface $F(x,y,z)=k$: $F_x(x-x_0)+F_y(y-y_0)+F_z(z-z_0)=0$. \ex $2x^2-3xy+8y^2+2x-4y+4$ at $(2,-1)$: $f=34$, $f_x=4x-3y+2=13$, $f_y=-3x+16y-4=-26$ \then\ $z=34+13(x-2)-26(y+1)$. \ex $\sin2x\cos3y$ at $(\pi/3,\pi/4)$: $f=-\rt6/4$, $f_x=2\cos2x\cos3y=\rt2/2$, $f_y=-3\sin2x\sin3y=-3\rt6/4$. \ex $-3xy/(10x+3y)$ at $(-2,-2)$: $z=6/13-(9/169)(x+2)-(30/169)(y+2)$.
+
+\pt{Linear approximation} $L(x,y)$ \sh{6R4} = the same formula; $f(x,y)\approx L(x,y)$ near $(x_0,y_0)$. \how base point = a nearby ``nice'' point where $f$ is easy; plug the target point into $L$. 3 variables: add $f_z(x_0,y_0,z_0)(z-z_0)$ (same for $dw$). \ex $f=-5x^3-2y^2-3xy$, base $(1,2)$, find $f(0.996,1.9)$: $f=-19$, $f_x=-15x^2-3y=-21$, $f_y=-4y-3x=-11$ \then\ $L=-19-21(-0.004)-11(-0.1)=-17.82$. \ex $9\cos x+10\sin(x+y)$ at $(0,0)$: $L=9+10x+10y$ \then\ $L(0.003,-0.003)=9$.
+
+\pt{Differentiability:} $f$ is differentiable at $P$ when the tangent plane fits: $f=L+E$ with $E/\rt((x-x_0)^2+(y-y_0)^2)\to0$. \textbf{Test}: $f_x,f_y$ exist near $P$ and are continuous at $P$ \then\ differentiable. One-way chain: continuous partials \then\ differentiable \then\ continuous (\warn\ converses are false). \shc Sums, products and compositions of polynomials, exp and trig are differentiable wherever defined, e.g. $e^{5x-4y}\cos(-3x-5y)$: partials continuous everywhere \then\ differentiable at $(0,0)$.
+
+\pt{Total differential} $dz=f_x(x_0,y_0)\,dx+f_y(x_0,y_0)\,dy$ \sh{6R5}: $dx=\Delta x$, $dy=\Delta y$ = small (signed) input changes; $dz\approx\Delta z=f(x_0+\Delta x,y_0+\Delta y)-f(x_0,y_0)$ (the true change). ``Find $dz$'' \then\ leave $f_x,f_y$ as formulas; ``approximate $\Delta z$'' \then\ plug in numbers. New value $\approx f(x_0,y_0)+dz$. Error propagation: max error $\approx|f_x||\Delta x|+|f_y||\Delta y|$. \ex $z=-3xy/(x-y)$: $dz=(3y^2/(x-y)^2)dx-(3x^2/(x-y)^2)dy$. \ex $-3x^2+4y^2+5xy$ at $(2,-1)$, $\Delta x=0.02$, $\Delta y=-0.01$: $f_x=-6x+5y=-17$, $f_y=8y+5x=2$ \then\ $dz=-0.34-0.02=-0.36$. \ex can $V=\pi r^2h$, $r=3$, $h=10$, errors $0.05$, $0.1$: $dV=2\pi rh\,dr+\pi r^2dh=3\pi+0.9\pi\approx12.25$. Relative error $dV/V$ ($\times100$ for \%).
+
+\hd{BY-HAND TOOLKIT (no CAS)}
+\pt{Derivatives.} On \sh{p3} (left): $k$, $x^n$, $\ln|x|$, $e^x$, $e^{bx}$, $\sin$, $\cos$ (also of $bx$), $\tan$, $\csc$, $\sec$, $\cot$, $\sin^{-1}$, $\tan^{-1}$, $\sec^{-1}$. \textbf{Product} $(fg)'=f'g+fg'$. \textbf{Quotient} $(f/g)'=(f'g-fg')/g^2$. \textbf{Chain} $[f(g)]'=f'(g)\cdot g'$ (outside derivative with the inside untouched, times inside derivative). Chain forms ($u$ = inside): $(u^n)'=nu^{n-1}u'$; $(\rt u)'=u'/(2\rt u)$; $(1/u)'=-u'/u^2$; $(e^u)'=e^uu'$; $(a^u)'=a^u\ln a\,u'$; $(\ln u)'=u'/u$; $(\log_au)'=u'/(u\ln a)$; $(\sin u)'=u'\cos u$; $(\cos u)'=-u'\sin u$; $(\tan u)'=u'\sec^2u$; $(\sec u)'=u'\sec u\tan u$; $(\cos^{-1}u)'=-u'/\rt(1-u^2)$; $(\cot^{-1}u)'=-u'/(1+u^2)$. Rewrite roots and fractions as powers first ($4/t^2=4t^{-2}$).
+
+\pt{Integrals.} On \sh{p3} (right): $k$, $x^n$, $1/x$, $e^x$, $e^{bx}$, $\cos bx$, $\sin bx$, $\sec^2$, $\csc\cot$, $\sec\tan$, $\csc^2$, $1/\rt(1-x^2)$, $1/(1+x^2)$. Not on the sheet: $\int\tan u=-\ln|\cos u|=\ln|\sec u|$; $\int\cot u=\ln|\sin u|$; $\int\sec u=\ln|\sec u+\tan u|$; $\int\csc u=-\ln|\csc u+\cot u|$; $\int\sec^2bx=(1/b)\tan bx$; $\int a^x=a^x/(\ln a)$; $\int\ln x=x\ln x-x$; $\int(ax+b)^n=(ax+b)^{n+1}/(a(n+1))$; $\int dx/(ax+b)=(1/a)\ln|ax+b|$; $\int dx/(a^2+x^2)=(1/a)\tan^{-1}(x/a)$; $\int\sin^2x=x/2-(\sin2x)/4$, $\int\cos^2x=x/2+(\sin2x)/4$ (power-reducing \sh{p1}). \textbf{u-sub}: $u$ = inside, $du=u'\,dt$, replace everything; definite: change the limits too. \textbf{Parts}: $\int u\,dv=uv-\int v\,du$ ($u$ by LIATE: Log, Inverse trig, Algebraic, Trig, Exp). $\int_a^bf=F(b)-F(a)$.
+
+\pt{Vectors.} Magnitude $\nm{\ip{a,b,c}}=\rt(a^2+b^2+c^2)$ \sh{4L11}; unit vector $\vb v/\nm{\vb v}$ \sh{4L12}. \textbf{Dot} $\vb u\cdot\vb v=u_1v_1+u_2v_2+u_3v_3$ \sh{4L16} (a scalar; $=0\iff\perp$); angle $\cos\theta=(\vb u\cdot\vb v)/(\nm{\vb u}\nm{\vb v})$ \sh{4R1}. \textbf{Cross} \sh{5top}: $\vb u\times\vb v=\ip{u_2v_3-u_3v_2,\ u_3v_1-u_1v_3,\ u_1v_2-u_2v_1}$. \how rows $\vb i\,\vb j\,\vb k$ / $\vb u$ / $\vb v$; for each unit vector cover its column and take the $2\times2$ determinant $ad-bc$; \warn\ the middle ($\vb j$) term gets a minus. Result $\perp$ both (check: dot with each $=0$); $\vb v\times\vb u=-(\vb u\times\vb v)$; $\nm{\vb u\times\vb v}$ = parallelogram area; 2D vectors: append 0. \shc Factor scalars out first: $(c\vb u)\times(d\vb v)=cd(\vb u\times\vb v)$, $\nm{c\vb v}=|c|\nm{\vb v}$.
+
+\pt{Algebra \& trig.} Complete the square: $ax^2+bx=a(x+b/(2a))^2-b^2/(4a)$. Quadratic formula $x=(-b\pm\rt(b^2-4ac))/(2a)$. Rationalize $a/\rt b=a\rt b/b$. $\rt(a^2b)=|a|\rt b$; $\rt(x^2)=|x|$. $\sin^2+\cos^2=1$, $1+\tan^2=\sec^2$ \sh{p1}. Logs: $e^{\ln a}=a$, $\ln e^k=k$, $\ln ab=\ln a+\ln b$; $e^{2t}=c$ \then\ $t=(1/2)\ln c$. Degrees $=$ radians$\times180/\pi$. Unit circle \sh{p2}. \shc Perfect-square speeds: $4t^2+4+1/t^2=(2t+1/t)^2$; $e^{2t}+2+e^{-2t}=(e^t+e^{-t})^2$; $\ip{e^t\cos t,e^t\sin t,e^t}$: speed $\rt3\,e^t$.
+
+\pt{Answer checks.} Vector or scalar? Exact or decimal (round only at the end)? Degrees vs radians (calculator mode)? $+\vb C$ written once? Given $\theta$ kept? Only coefficients in $\vb i/\vb j/\vb k$ boxes? $\kappa$, $a_N$, speed, $\rho$, $r$ all $\ge0$?
+
+\vfill
+% hollow letters: white fill + black stroke (change [1] to e.g. [0.85] for a light gray fill)
+\noindent\hfil\resizebox{!}{\stampheight}{\vbox{\special{pdf:bc [1] [0]}\stampf\fontsize{20}{20}\selectfont
+  \baselineskip=0pt \lineskiplimit=0pt \lineskip=2.6pt
+  \halign{\hfil#\hfil\cr STAMP\cr HERE\cr}\special{pdf:ec}}}\hfil\par
+
+\end{multicols*}
+\end{document}
