@@ -51,11 +51,15 @@ The example `.tex` differs from the shipped file only in using an absolute path 
 - **Commercial fonts.** Bell Centennial and Helvetica 95 Black are in `~/Library/Fonts/` on the user's Mac. `.gitignore` blocks font files.
 - **Course materials.** The lesson PDFs, quizzes, and equation sheet stay in the user's notecard folder. The Unit 2 set is in `~/Documents/BYUI Assignments/Semester 7/Calc exam 2 notecard/`, along with the Unit 1 card.
 
+## Print result
+
+The user's report on the printed Unit 2 card: the text "was great", with "room to spare on font sizing". In their words, "We're not even pushing the boundaries yet." So 3.55 pt is comfortable, not a floor. If a future card runs over, shrink the type before cutting content.
+
 ## Still unknown
 
-- How the 3.55 pt type actually looked on paper, and which print settings were used. No agent has seen a printed card. Ask, and record the answer here.
+- The smallest size the user can read. No agent has seen a printed card, so any floor has to come from them.
+- Which print settings were used. Ask, and record the answer here.
 - Whether a non-CAS calculator is allowed. The Unit 2 card assumes one might be and also gives exact-value methods.
-- How low the user would go. They said they could read "almost gnat sized", and 3.55 pt hasn't been shown to be the limit.
 
 ## Keeping this current
 

@@ -9,7 +9,7 @@ These held for Unit 2, so assume them unless told otherwise:
 - A 3 × 5 double-sided printed card is allowed, delivered as a 6 × 5 sheet.
 - No CAS calculator on the exam.
 - Testing center staff stamp the card.
-- The printer is about 1200 DPI. The user reported the Unit 1 card at 3.92 pt as "EASY to read".
+- The printer is about 1200 DPI. The user reported the Unit 1 card at 3.92 pt as "EASY to read", and the printed Unit 2 card at 3.54 pt as great, with room to go smaller.
 
 Ask only about what you can't find out: the lessons covered, if the topic list is missing, and whether a basic calculator is allowed.
 
@@ -74,6 +74,8 @@ The final Unit 2 content measured:
 | 3.60 | 10 lines over, and 7 pt stranded in column 3 |
 
 Near a full card, each extra 0.01 pt of body size costs about 10 pt of column height. Don't assume a size that overflows is simply too big: a header pushed to the next column can strand several lines, so check the blanks in columns 1 to 3.
+
+If the content really doesn't fit, go smaller before cutting anything, since the Unit 2 card wasn't near the user's limit. For a big drop, offer a test print first.
 
 ## 8. Proof
 

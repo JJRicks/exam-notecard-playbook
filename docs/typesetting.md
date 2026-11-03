@@ -34,6 +34,8 @@ Use `multicols*`, not `multicols`. It fills columns in order instead of balancin
 
 Unit 2 has about 80% of Unit 1's x-height and about 1.6 times its text. Bell's narrowness supplies most of that gain.
 
+In print, the user said the Unit 2 text "was great" and that there was room to spare, so these sizes aren't the limit. Capacity scales with the inverse square of body size, so a 3.2 pt body should hold about 23% more. That figure is calculated, not tested.
+
 ## Bell Centennial
 
 Only the Address weight is available, so bold and italic are synthesized with `AutoFakeBold=1.8` and `AutoFakeSlant=0.18`. Both looked fine at this size.
