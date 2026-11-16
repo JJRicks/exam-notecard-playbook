@@ -1,0 +1,37 @@
+% Optional duplex print sheet: the same Exam 3 card as two letter pages, front (columns 1-2) and back
+% (columns 3-4), each 3 x 5 in at 100% and centered so the two sides line up when printed double-sided.
+% Use it instead of the 6 x 5 sheet if you would rather print both sides of one card than fold or glue.
+% Build the card first, then:  tectonic -X compile Unit3_Notecard_Letter_Duplex.tex
+\documentclass{article}
+\usepackage[letterpaper,margin=0pt]{geometry}
+\usepackage{graphicx}
+\usepackage{eso-pic}
+\usepackage{fontspec}
+\newcommand\cardpdf{Unit3_Notecard_6x5.pdf}  % the built 6x5 card, next to this file
+\newcommand\fontdir{/Users/joelr/Library/Fonts/}
+\setmainfont{Bell-Centennial-Std-Address_6527.ttf}[Path=\fontdir, AutoFakeBold=1.8]
+\pagestyle{empty}
+
+% One face sits at x = 2.75..5.75 in, y = 3..8 in (centered on the page).
+% #1 = viewport of the 6x5 card (in bp), #2 = caption line naming the face.
+\newcommand\face[2]{%
+  \AddToShipoutPictureBG*{\AtPageLowerLeft{\setlength\unitlength{1in}\linethickness{0.4pt}%
+    \put(2.75,3){\includegraphics[viewport=#1,clip]{\cardpdf}}%
+    % crop marks: 0.25 in long, starting 1/16 in outside each corner
+    \put(2.4375,3){\line(1,0){0.25}}\put(2.75,2.6875){\line(0,1){0.25}}%
+    \put(5.8125,3){\line(1,0){0.25}}\put(5.75,2.6875){\line(0,1){0.25}}%
+    \put(2.4375,8){\line(1,0){0.25}}\put(2.75,8.0625){\line(0,1){0.25}}%
+    \put(5.8125,8){\line(1,0){0.25}}\put(5.75,8.0625){\line(0,1){0.25}}%
+    \put(4.25,2.45){\makebox(0,0)[t]{\parbox[t]{6.4in}{\centering\fontsize{8}{10}\selectfont
+      \textbf{MATH 215 EXAM 3 NOTECARD \,—\, #2 \,—\, 3 × 5 in at actual size}\\
+      Print \textbf{double-sided, flip on the long edge}, at \textbf{100\% / ``Actual size''}.\\
+      The text runs right to the trim edge (no margins): cut exactly on the four corner marks, or a hair outside them.\\
+      Hold the sheet to the light before cutting: the two sides should line up.}}}%
+    \put(3.75,1.7){\line(1,0){1}}\put(3.75,1.67){\line(0,1){0.06}}\put(4.75,1.67){\line(0,1){0.06}}%
+    \put(4.25,1.61){\makebox(0,0)[t]{\fontsize{8}{10}\selectfont Scale check: this bar should measure exactly 1 in.}}%
+  }}\null\newpage}
+
+\begin{document}
+\face{0 0 216 360}{FRONT (L19–L24)}
+\face{216 0 432 360}{BACK (L24–L27, toolkit)}
+\end{document}

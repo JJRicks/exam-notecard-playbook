@@ -1,0 +1,140 @@
+% Exam notecard template, solid layout: zero margins, lines set solid, hairline column rules.
+% 6in x 5in sheet = two 3x5 faces (cut/fold on the centre line). Read docs/workflow.md and the
+% "Solid layout" part of docs/typesetting.md first. Rename this file to UnitN_Notecard_6x5.tex in the
+% user's notecard folder and build in place:  tectonic -X compile UnitN_Notecard_6x5.tex
+% After every edit:  python3 tools/check_scripts.py card.tex   and   python3 tools/solid_stats.py card.pdf
+\documentclass{article}
+% ---------- the knobs ----------
+\newcommand\bodysize{3.3}      % body type size (pt)
+\newcommand\nlines{115}        % text lines per column: sets the line pitch (pitch = (360pt - 2 edgemargin - 1em)/(nlines-1))
+\newcommand\sidemargin{0.3pt}  % left/right inset so edge glyphs are not clipped; top and bottom are 0
+\newcommand\edgemargin{0pt}    % safety inset on all four sides if a cut ever clips text (1pt costs about 5 lines: re-fit after)
+\newcommand\colgap{1.4pt}      % gap between columns, with a hairline rule down its middle
+\newcommand\stamplines{9}      % height of the STAMP HERE block, in text lines
+\newdimen\insetLR \insetLR=\dimexpr\sidemargin+\edgemargin\relax
+\usepackage[paperwidth=6in,paperheight=5in,left=\insetLR,right=\insetLR,top=\edgemargin,bottom=\edgemargin,nohead,nofoot]{geometry}
+\usepackage{fontspec}
+\usepackage{unicode-math}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{eso-pic}
+\usepackage{graphicx}
+
+% ---------- fonts ----------
+\newcommand\fontdir{/Users/joelr/Library/Fonts/}  % where the commercial fonts live
+\setmainfont{Bell-Centennial-Std-Address_6527.ttf}[Path=\fontdir, AutoFakeBold=1.8, AutoFakeSlant=0.18]
+\setmathfont{FiraMath-Regular.otf}[Scale=0.92]
+\newfontfamily\symf{DejaVuSans.ttf}[Scale=0.85]
+\newfontfamily\stampf{Helvetica 95 Black.ttf}[Path=\fontdir, FakeBold=2.5]  % FakeBold = outline stroke weight
+
+% ---------- sizes ----------
+% First baseline sits 0.78em below the top edge, last baseline 0.22em above the bottom edge, nlines baselines per column.
+\makeatletter
+\newdimen\em@body \em@body=\bodysize pt
+\newdimen\pitch \pitch=\dimexpr(360pt-2\dimexpr\edgemargin\relax-\em@body)/(\nlines-1)\relax
+\edef\pitchpt{\strip@pt\pitch}
+\edef\scriptsz{\strip@pt\dimexpr0.745\em@body\relax}   % first-level scripts (integral limits live here)
+\edef\sscriptsz{\strip@pt\dimexpr0.66\em@body\relax}
+\DeclareMathSizes{\bodysize}{\bodysize}{\scriptsz}{\sscriptsz}
+\makeatother
+
+% ---------- page furniture: hairline column rules; the centre one (fold / cut line) a little heavier ----------
+% Solid black, not gray and not dashed: a gray hairline halftones into dots, and a dash beside a line end reads as | or 1.
+\makeatletter
+\AddToShipoutPictureBG{\AtPageLowerLeft{\setlength\unitlength{1pt}%
+  \linethickness{0.2pt}\color{black}%
+  \@tempdima=\dimexpr(432pt-2\insetLR-3\dimexpr\colgap\relax)/4\relax   % column width
+  \@tempdimb=\dimexpr\insetLR+\@tempdima+0.5\dimexpr\colgap\relax\relax    % centre of the first gap
+  \put(\strip@pt\@tempdimb,0){\line(0,1){360}}%
+  \put(\strip@pt\dimexpr432pt-\@tempdimb\relax,0){\line(0,1){360}}%
+  \linethickness{0.35pt}\put(216,0){\line(0,1){360}}}}
+\makeatother
+
+% ---------- spacing: every line exactly one pitch, nothing stretches ----------
+\setlength\columnsep{\colgap}
+\setlength\parindent{0pt}
+\setlength\parskip{0pt}
+\pagestyle{empty}
+\tolerance=3000 \emergencystretch=0.8em \hbadness=10000 \hfuzz=0.4pt \vbadness=10000 \vfuzz=2pt
+\hyphenpenalty=30 \exhyphenpenalty=30 \binoppenalty=200 \relpenalty=100
+\AtBeginDocument{%
+  \thinmuskip=2mu \medmuskip=2mu plus 1mu minus 1mu \thickmuskip=3mu plus 2mu minus 1mu
+  \lineskiplimit=-\maxdimen \lineskip=0pt \nulldelimiterspace=0pt \scriptspace=0.1pt
+  \topskip=0.78\dimexpr\bodysize pt\relax \splittopskip=\topskip \maxdepth=2pt \splitmaxdepth=\maxdepth}
+
+% ---------- scripts that stay inside their line slot ----------
+% TeX's own positions put a subscript 0.33em below and a superscript 0.85em above the baseline, which collides once
+% lines are set solid. These wrappers keep the native attachment but shift the (smashed) script back toward the line.
+% In the body ^ and _ are active and mean \supx and \subx. Never stack them on one base: use \I or \ev for that.
+\newcommand\supx[1]{\sp{\smash{\lower0.085em\hbox{$\scriptstyle#1$}}}}   % single superscript
+\newcommand\subx[1]{\sb{\smash{\raise0.20em\hbox{$\scriptstyle#1$}}}}    % single subscript
+\newcommand\supy[1]{\sp{\smash{\lower0.02em\hbox{$\scriptstyle#1$}}}}    % stacked pair: upper
+\newcommand\suby[1]{\sb{\smash{\raise0.10em\hbox{$\scriptstyle#1$}}}}    % stacked pair: lower
+\newcommand\cx{\mathord{\symup{\char"5E}}}                               % caret for exponents that would not fit: e^(2x)
+\newcommand\I[2]{{\smash{\int}}\suby{#1}\supy{#2}}                        % integral with stacked limits (no powers inside)
+\newcommand\Ia[2]{{\smash{\int}}[#1{\to}#2]}                              % integral with limits written [a -> b] (limits with powers)
+\newcommand\J{{\smash{\int}}}                                             % integral sign alone
+\newcommand\II[1]{{\smash{\iint}}\subx{#1}}                               % double integral over a region
+\newcommand\III[1]{{\smash{\iiint}}\subx{#1}}                             % triple integral over a solid
+\newcommand\ev[2]{\suby{#1}\supy{#2}}                                     % evaluation limits: [F]\ev{a}{b}
+\newcommand\pr{{\smash{\raise0.30em\hbox{$\scriptstyle\prime$}}}}         % prime (math ' is mapped to this in the body)
+
+% ---------- markup ----------
+\newcommand\vb[1]{\symbf{#1}}                         % bold vector
+\newcommand\nm[1]{\mathopen{\smash{\lVert}}#1\mathclose{\smash{\rVert}}}     % norm
+\newcommand\ip[1]{\mathopen{\smash{\langle}}#1\mathclose{\smash{\rangle}}}   % <a,b,c>
+\newcommand\abs[1]{\mathopen{\smash{\lvert}}#1\mathclose{\smash{\rvert}}}    % |x|
+\newcommand\cm{,\allowbreak\,}                        % comma that lets a long vector break across lines
+\newcommand\sh[1]{{\setlength\fboxsep{0.18pt}\colorbox{black!22}{\textbf{#1}}}}  % equation-sheet tag
+\newcommand\hd[1]{\par\noindent{\setlength\fboxsep{0pt}\smash{\colorbox{black}{\color{white}\bfseries
+  \vrule height0.76em depth0.20em width0pt\,#1\,}}}\ }                           % run-in section label, one line slot tall
+\newcommand\pt[1]{\textbf{{\symf ▸}#1}}       % problem type (run-in); follow it with a space or a colon
+\newcommand\ex{\textit{Ex}\ }                  % worked example
+\newcommand\how{\textbf{How:}\ }
+\newcommand\warn{{\symf ⚠}}                    % pitfall
+\newcommand\shc{{\symf ★}}                      % shortcut / extra
+\newcommand\ok{{\symf ✓}}                       % checked
+\newcommand\rt{\smash{\surd}}                  % prefix radical: \rt2, \rt(x^2+y^2)
+\newcommand\then{\ensuremath{\Rightarrow}}
+\newcommand\pd{\partial}
+\newcommand\gr{\nabla}
+\newcommand\av{\symup{avg}}
+
+\begin{document}
+\fontsize{\bodysize}{\pitchpt}\selectfont
+\catcode`\^=\active \catcode`\_=\active \let^\supx \let_\subx
+\begingroup\lccode`\~=`\' \lowercase{\endgroup\let~}\pr
+\begin{multicols*}{4}
+
+% The legend: update the tag list to the pages this unit uses (docs/equation-sheet-map.md).
+\hd{MATH 215 EXAM N · Lxx–Lyy · HOW TO READ THE TAGS}
+A gray tag points at the allowed equation sheet and stands in for the formula: read the formula there, read here what it does, what every letter means and how to use it. \sh{7M5} = \textbf{page 7, M}iddle (full-width) rows in the lower half, \textbf{5}th one down. \sh{7L4}, \sh{7R4} = p7 \textbf{L}eft / \textbf{R}ight column, 4th formula from the top. \sh{6UL2}, \sh{6UR2} = p6, the block under the heading ``\textbf{U}nit 3 Equations'', left / right column, 2nd formula. \sh{5C1}–\sh{5C6} = p5, the six centered coordinate-conversion rows. \sh{4L7} = p4 left column, 7th row. \sh{3L7}, \sh{3R7} = p3 table, row 7 under the header: left cell (derivative), right cell (integral). \sh{p1} = trig identities (by name), \sh{p2} = unit circle. \shc = shortcut, \warn = pitfall, \ex = worked example, \then = ``so / gives''. $f_x=\pd f/\pd x$ = partial derivative (see TOOLKIT, last section). Exponents that would not fit on the line use a caret: $e\cx(2x)$ = $e$ to the power $2x$. $\Ia{a}{b}$ = integral from $a$ to $b$ (same as $\I{a}{b}$).
+
+% One \hd per lesson, then run-in \pt entries: tag, name, what it does, every letter, steps, examples.
+% This is the real Unit 3 section for Lesson 24. It uses \I, \Ia, \ev and \II; copy its habits.
+\hd{L24 DOUBLE INTEGRALS OVER GENERAL REGIONS}
+\pt{Type I} \sh{7M2} (vertical strips, $dy\,dx$): the region lies between the vertical lines $x=a$ and $x=b$ (numbers); $g_1(x)$ = bottom curve, $g_2(x)$ = top curve = the inner limits. \pt{Type II} \sh{7M3} (horizontal strips, $dx\,dy$): between $y=c$ and $y=d$; $h_1(y)$ = left curve, $h_2(y)$ = right curve, both solved for $x$. $D$ = the region; $f$ = the integrand (height). \textbf{Limits recipe}: 1) sketch every boundary and shade the region; 2) intersections: set the curves equal; 3) slide a strip across: where it ENTERS the region is the lower inner limit, where it EXITS is the upper; 4) outer limits = first and last position of the strip. \warn\ outer limits are always numbers; inner limits may contain only the outer variable; a variable never shows up in a limit after it has been integrated away. If the entry or exit curve changes partway across, split the region or use the other type. \ex Prism: base = triangle bounded by the $x$-axis, $y=x$, $x=1$; top $z=3-x-y$. Type I: $\I{0}{1}\I{0}{x}(3-x-y)\,dy\,dx=\I{0}{1}(3x-(3/2)x^2)\,dx=3/2-1/2=1$. Type II: $\I{0}{1}\I{y}{1}(3-x-y)\,dx\,dy=\I{0}{1}(5/2-4y+(3/2)y^2)\,dy=1$ \ok. \ex $\II{D}(3x^2+y^2)\,dA$, $D$: $-2\le y\le3$, $y^2-3\le x\le y+3$ (already Type II: parabola on the left, line on the right): $\Ia{-2}{3}\Ia{y^2-3}{y+3}(3x^2+y^2)\,dx\,dy$; inner $[x^3+y^2x]$ \then\ $(y+3)^3+y^2(y+3)-(y^2-3)^3-y^2(y^2-3)=-y^6+8y^4+2y^3-12y^2+27y+54$; outer \then\ $2375/7$. \ex $\Ia{0}{1}\Ia{x^3}{x^3+7}(8x+5y)\,dy\,dx$: inner $56x+(5/2)((x^3+7)^2-x^6)=56x+35x^3+245/2$ \then\ $28+35/4+245/2=637/4$. \ex $\II{D}xy\,dA$, $D$ between $y=x^2$ and $y=x$: they meet where $x^2=x$, so $x=0,1$; in between the line is on top \then\ $\Ia{0}{1}\Ia{x^2}{x}xy\,dy\,dx=\I{0}{1}(x^3-x^5)/2\,dx=1/8-1/12=1/24$.
+\pt{Switch the order} (when the inner integral cannot be done, like $e\cx(y^2)$ or $\sin(y^2)$, or is just uglier): sketch the region from the given limits, then describe the SAME region with the other kind of strip. Never just swap the differentials. \ex $\I{0}{1}\I{x}{1}e\cx(y^2)\,dy\,dx$: the region is $0\le x\le y\le1$ \then\ $\I{0}{1}\I{0}{y}e\cx(y^2)\,dx\,dy=\I{0}{1}ye\cx(y^2)\,dy=[(1/2)e\cx(y^2)]\ev{0}{1}=(e-1)/2$ ($u=y^2$). \ex $\I{0}{4}\I{-4}{y}f\,dx\,dy=\I{-4}{0}\I{0}{4}f\,dy\,dx+\I{0}{4}\I{x}{4}f\,dy\,dx$ (vertical strips change their bottom curve at $x=0$, so two pieces). \ex $\Ia{0}{4}\Ia{\rt x}{2}f\,dy\,dx=\Ia{0}{2}\Ia{0}{y^2}f\,dx\,dy$ (the curve $y=\rt x$, solved for $x$, is $x=y^2$).
+\pt{Volume} = $\II{D}$(top $-$ bottom)$\,dA$ over the shadow $D$. ``First octant'' = $x,y,z\ge0$: solve the plane for $z$, set $z=0$ to get the triangle on the floor. \ex under $8x+2y+2z=32$: $z=16-4x-y$, floor edge $4x+y=16$ \then\ $\I{0}{4}\I{0}{16-4x}(16-4x-y)\,dy\,dx=\I{0}{4}(1/2)(16-4x)^2\,dx=512/3$ ($u=16-4x$). \shc A plane that cuts the axes at $a$, $b$, $c$ (set the other two variables to 0) cuts off first-octant volume $abc/6$: intercepts 4, 16, 16 \then\ $512/3$ \ok; $3x+y+2z=6$: $(2)(6)(3)/6=6$.
+\pt{Area} \sh{7R1} = $\II{D}1\,dA$, which is Calc 1's top minus bottom. \ex between $y=1/(2x)$ and $y=2e^x$ from $x=1$ to $x=7$ ($2e^x$ is on top): $\I{1}{7}(2e^x-1/(2x))\,dx=[2e^x-(1/2)\ln x]\ev{1}{7}$ \sh{3R4}\,\sh{3R3} $=2e^7-2e-(1/2)\ln7$.
+\pt{Average} \sh{7R2} = $(1/\text{Area of }D)\II{D}f\,dA$. \ex $D$ bounded by $y=0$, $x=y-7$, $x=7-y$ (triangle with corners $(-7,0)$, $(7,0)$, $(0,7)$; Type II), $f=9x+5y$: area 49; $\I{0}{7}\I{y-7}{7-y}(9x+5y)\,dx\,dy$: inner $[(9/2)x^2+5xy]=5y(14-2y)$ (the $9x$ part cancels by symmetry) \then\ $\I{0}{7}(70y-10y^2)\,dy=1715/3$ \then\ $f_\av=35/3$. \shc A linear $f=ax+by+c$ over a triangle averages to $f$ at the centroid = the mean of the three corner values: $(-63+63+35)/3=35/3$ \ok; $7x+4y$ on corners $(\pm14,0)$, $(0,14)$: $56/3$. \shc Terms odd in $x$ cancel over a region symmetric about the $y$-axis.
+
+% Reusable across exams: trim what a unit does not need, keep the u-substitution entry.
+\hd{BY-HAND TOOLKIT · RULES THE SHEET DOES NOT GIVE}
+\pt{Partial derivatives} (used in every section): $f_x=\pd f/\pd x$ = differentiate in $x$ while every other letter is treated as a constant number. A frozen factor stays, $\pd_x(3xy)=3y$; a frozen term dies, $\pd_x(2y^2)=0$. Chain rule: $\pd_xe\cx(xy)=ye\cx(xy)$, $\pd_y\sin(x^2y)=x^2\cos(x^2y)$. Product rule only when both factors contain the variable. Second partials: $f_{xx}=(f_x)_x$, $f_{yy}=(f_y)_y$, $f_{xy}=(f_x)_y=f_{yx}$.
+\pt{Derivative rules.} On the sheet, \sh{p3} left column, rows 1–16: $k$, $x^n$, $\ln\abs{x}$, $e^x$, $e^{bx}$, $\sin x$, $\sin bx$, $\cos x$, $\cos bx$, $\tan$, $\csc$, $\sec$, $\cot$, $\sin^{-1}$, $\tan^{-1}$, $\sec^{-1}$. NOT on the sheet: \textbf{product} $(fg)'=f'g+fg'$; \textbf{quotient} $(f/g)'=(f'g-fg')/g^2$ (bottom times derivative of top, minus top times derivative of bottom, over bottom squared); \textbf{chain} $[f(g(x))]'=f'(g(x))\cdot g'(x)$ = derivative of the outside with the inside left untouched, times the derivative of the inside. Chain forms ($u$ = the inside, $u'$ = its derivative): $(u^n)'=nu^{n-1}u'$; $(\rt u)'=u'/(2\rt u)$; $(1/u)'=-u'/u^2$; $(e^u)'=u'e^u$; $(a^u)'=u'a^u\ln a$; $(\ln u)'=u'/u$; $(\sin u)'=u'\cos u$; $(\cos u)'=-u'\sin u$; $(\tan u)'=u'\sec^2u$; $(\tan^{-1}u)'=u'/(1+u^2)$. Rewrite before differentiating: $\rt x=x^{1/2}$, $1/x^3=x^{-3}$, cube root of $t$ = $t^{1/3}$. Exponents: $t^at^b=t^{a+b}$ (so $t^{1/3}\cdot t=t^{4/3}$), $t^a/t^b=t^{a-b}$ ($t^2/t^{3/4}=t^{5/4}$), $(t^a)^b=t^{ab}$.
+\pt{Integral rules.} On the sheet, \sh{p3} right column, same rows: $k$; $x^n$ ($n\ne-1$); $1/x\to\ln\abs{x}$; $e^x$; $e^{bx}\to e^{bx}/b$; $\cos x$; $\cos bx\to(\sin bx)/b$; $\sin x$; $\sin bx\to-(\cos bx)/b$; $\sec^2$; $\csc\cot$; $\sec\tan$; $\csc^2$; $1/\rt(1-x^2)$; $1/(1+x^2)$; $1/(x\rt(x^2-1))$. NOT on the sheet: $\J\tan u=-\ln\abs{\cos u}$; $\J\cot u=\ln\abs{\sin u}$; $\J\sec u=\ln\abs{\sec u+\tan u}$; $\J\ln x=x\ln x-x$; $\J a^x=a^x/\ln a$; $\J(ax+b)^n=(ax+b)^{n+1}/(a(n+1))$; $\J1/(ax+b)=(1/a)\ln\abs{ax+b}$; $\J1/(a^2+x^2)=(1/a)\tan^{-1}(x/a)$; $\J\sin^2u=u/2-(\sin2u)/4$; $\J\cos^2u=u/2+(\sin2u)/4$ (both from power-reducing \sh{p1}); $\J\sin u\cos u=(1/2)\sin^2u$. Definite: $\I{a}{b}f=F(b)-F(a)$, top limit minus bottom limit (\warn\ $F$ at 0 is not always 0: $\cos0=1$, $e^0=1$). Constants come out front; integrate term by term. Handy values: $\sin^2$ or $\cos^2$ integrated over $0..\pi/2$ gives $\pi/4$, over $0..\pi$ gives $\pi/2$, over $0..2\pi$ gives $\pi$; $\sin$ and $\cos$ over a full period give 0. Symmetric limits: an odd integrand gives $\I{-a}{a}=0$; an even one gives $2\I{0}{a}$.
+\pt{u-substitution} = the chain rule run backwards. Use it when the integrand is (a function of some inside chunk) × (the derivative of that chunk, give or take a constant factor). \how 1) $u$ = the inside chunk (what sits inside a power, a root, an exponent, a trig function or a denominator); 2) differentiate: $du=u'\,dx$, so $dx=du/u'$; 3) substitute: every $x$ has to disappear (the leftover factor cancels against $u'$; a missing CONSTANT is fine: put $1/c$ out front); 4) integrate in $u$; 5) indefinite: put the $x$-expression back. Definite: convert the limits ($x=a$ becomes $u(a)$, $x=b$ becomes $u(b)$) and never go back to $x$, OR put $x$ back and use the old limits. Never mix the two. \ex $\J y^2\cos(6y^3)\,dy$: $u=6y^3$, $du=18y^2\,dy$, so $y^2\,dy=du/18$ \then\ $(1/18)\J\cos u\,du=(1/18)\sin(6y^3)$. \ex $\I{0}{4}(1/2)(16-4x)^2\,dx$: $u=16-4x$, $dx=-du/4$, limits $16\to0$ \then\ $-(1/8)\I{16}{0}u^2\,du=(1/8)\I{0}{16}u^2\,du=16^3/24=512/3$ (a minus sign flips the limits). \ex $\I{0}{\pi}\sin\theta\,(1+\cos\theta)^4\,d\theta$: $u=1+\cos\theta$, $du=-\sin\theta\,d\theta$, limits $2\to0$ \then\ $\I{0}{2}u^4\,du=32/5$. \ex Leftover $x$: $\I{0}{1}x(1-x)^3\,dx$: $u=1-x$, so $x=1-u$, $dx=-du$, limits $1\to0$ \then\ $\I{0}{1}(1-u)u^3\,du=1/4-1/5=1/20$. \ex $\I{0}{2}r\rt(4-r^2)\,dr$: $u=4-r^2$, $r\,dr=-du/2$, limits $4\to0$ \then\ $(1/2)\I{0}{4}\rt u\,du=[(1/3)u^{3/2}]\ev{0}{4}=8/3$. \ex $\I{0}{1}re\cx(-r^2)\,dr$: $u=-r^2$, $r\,dr=-du/2$ \then\ $[-(1/2)e\cx(-r^2)]\ev{0}{1}=(1-1/e)/2$. \ex $\J x/(x^2+1)\,dx$: $u=x^2+1$ \then\ $(1/2)\ln(x^2+1)$. \ex Trig inside: $\J\cos^2\phi\sin\phi\,d\phi$: $u=\cos\phi$, $du=-\sin\phi\,d\phi$ \then\ $-(1/3)\cos^3\phi$. \ex Odd power: $\J\sin^3\phi\,d\phi=\J(1-\cos^2\phi)\sin\phi\,d\phi=-\cos\phi+(1/3)\cos^3\phi$ (from 0 to $\pi$: $4/3$). \shc \textbf{Linear inside}: integrate as if the inside were plain $x$, then divide by its coefficient: $\J\cos(6y)=(\sin6y)/6$; $\J e\cx(x-7)=e\cx(x-7)$; $\J\rt(6x+7)=(6x+7)^{3/2}/9$; $\J(16-4x)^2=-(16-4x)^3/12$. \shc Guess and check: write down the outside's antiderivative, differentiate it, fix the constant. \warn\ If the missing factor contains the variable (as in $\J e\cx(x^2)\,dx$, which has no spare $x$) u-sub fails: in a double integral switch the order (L24); a product like $xe^x$ needs parts. A nickname such as $a=1-x$ used inside a $y$-integral is NOT a substitution (it is a constant there): no $du$, no new limits.
+\pt{Integration by parts} (a product of unlike types): $\J u\,dv=uv-\J v\,du$; choose $u$ by LIATE (Logs, Inverse trig, Algebraic, Trig, Exponential), $dv$ = the rest. $\J xe^x=xe^x-e^x$; $\J x\cos x=x\sin x+\cos x$; $\J x\sin x=-x\cos x+\sin x$; $\J x\ln x=(x^2/2)\ln x-x^2/4$.
+\pt{Trig.} Unit circle \sh{p2}: the point at angle $\theta$ is $(\cos\theta,\sin\theta)$. $\sin k\pi=0$, $\cos k\pi=(-1)^k$; $\sin(\pi/2)=1$, $\sin(3\pi/2)=-1$, $\cos(\pi/2)=\cos(3\pi/2)=0$; subtract $2\pi$ from large angles ($9\pi/4\to\pi/4$). $\pi/6$: $(\rt3/2,1/2)$; $\pi/4$: $(\rt2/2,\rt2/2)$; $\pi/3$: $(1/2,\rt3/2)$. Identities \sh{p1}: $\sin^2+\cos^2=1$; $\sin2\theta=2\sin\theta\cos\theta$; power-reducing (see L25). $\sec=1/\cos$, $\csc=1/\sin$.
+\pt{Algebra.} Two linear equations: add or subtract a multiple of one to kill a variable, then back-substitute; or Cramer: $ax+by=p$, $cx+dy=q$ \then\ $x=(pd-bq)/(ad-bc)$, $y=(aq-pc)/(ad-bc)$. Quadratic formula $x=(-b\pm\rt(b^2-4ac))/(2a)$; parabola vertex $x=-b/(2a)$. Complete the square: $x^2+bx=(x+b/2)^2-b^2/4$. $(a\pm b)^2=a^2\pm2ab+b^2$; $(a+b)^3=a^3+3a^2b+3ab^2+b^3$. Roots: $\rt(a^2b)=a\rt b$ ($\rt1160=2\rt290$); rationalize $a/\rt b=a\rt b/b$. Vectors: length, unit vector, dot product \sh{4L11}\,\sh{4L12}\,\sh{4L16}. Logs: $\ln1=0$, $\ln e=1$, $e\cx(\ln a)=a$, $e\cx(2\ln3)=9$, $\ln a-\ln b=\ln(a/b)$.
+\pt{Answer checks.} Direction vector really length 1? Gradient evaluated before the dot product? Implicit: minus sign, right letter on the bottom? $D$ checked at every critical point? Every Lagrange branch, plus the interior for a filled region? Inner limits use only outer variables, lower below upper? Extra $r$ or $\rho^2\sin\phi$ included exactly once? Average divided by the area or volume? Area and volume positive? Exact form ($\pi$, radicals) and radians? Did they ask for a point, a value or a vector? Inner integral done first? Trig values at the limits right?
+
+\vfill
+% hollow letters: white fill + black stroke (change [1] to e.g. [0.85] for a light gray fill)
+\noindent\hfil\resizebox{!}{\dimexpr\stamplines\pitch-3.4pt\relax}{\vbox{\special{pdf:bc [1] [0]}\stampf\fontsize{20}{20}\selectfont
+  \baselineskip=0pt \lineskiplimit=0pt \lineskip=2.6pt
+  \halign{\hfil#\hfil\cr STAMP\cr HERE\cr}\special{pdf:ec}}}\hfil\par\kern1pt
+
+\end{multicols*}
+\end{document}

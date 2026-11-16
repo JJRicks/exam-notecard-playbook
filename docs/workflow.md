@@ -121,3 +121,50 @@ pdftotext -bbox UnitN_Notecard_Letter.pdf - | grep -m1 ">MATH<"
 ## 11. Hand over
 
 Link both PDFs, state the print setting (100% / Actual size), and flag any choice the user might want to reverse. They appreciated having the stamp-ink problem raised before they asked. Ask how the card printed, then record it in the README.
+
+## Solid layout: what differs (Unit 3 onward)
+
+Steps 1 to 5 and 11 are unchanged. Use these in place of steps 6 to 10 when building on `template/notecard-solid.tex`. The Unit 3 card took about an hour and a half, a third of it on typography tests that the template now makes unnecessary.
+
+**Sources.** Lesson PDFs may be guided notes with blank examples. Look for worked solutions elsewhere in the folder (HTML lessons, quizzes, the user's notes) and re-derive every one. Check for `sympy` first: `python3 -c "import sympy"`.
+
+**Verify before writing.** Put every example you intend to use in one sympy script and run it, then write the card from those results. `examples/unit3/verify_examples.py` is the Unit 3 script and a pattern to copy.
+
+**Write** the whole card in one pass, in the user's folder. Then:
+
+```bash
+python3 tools/check_scripts.py Unit4_Notecard_6x5.tex     # stacked, nested, or in-limit scripts
+out=$(mktemp -d)
+tectonic -X compile --keep-logs --outdir "$out" Unit4_Notecard_6x5.tex
+grep -c Overfull "$out"/*.log; grep "Missing character" "$out"/*.log | sort -u
+python3 tools/solid_stats.py "$out"/Unit4_Notecard_6x5.pdf --pitch=3.1289
+```
+
+**Fit** with the two knobs, not by hand-tuning spacing:
+
+```bash
+tools/solid_fit.sh Unit4_Notecard_6x5.tex 3.3:114 3.3:115 3.25:115
+```
+
+Column 4 must show at least `\stamplines` lines free. One more line per column is worth about 350 characters; 0.05 pt of body size is worth about 800. If the text is short, add ★ content until column 4 has exactly `\stamplines` free, then fill the part-filled last line of every section (see "Using the last line of every section" in typesetting.md).
+
+**Proof**, all four passes:
+
+1. Layout: `tools/solid_tiles.sh card.pdf tiles` and view all 20 tiles. Repeat after any change that moves line breaks.
+2. Text: `pdftotext -x $((c*108)) -y 0 -W 108 -H 360 -r 72 -layout card.pdf -` for c = 0 to 3, and read it. First letters at the crop edge can go missing in the dump; that is the crop, not the card.
+3. Math: the sympy script, again, against what was actually typed.
+4. A second reader. Hand the finished `.tex` to a fresh agent with a macro glossary and ask it to re-derive every example and check every tag against the rendered sheet, without telling it what you found. Start it as soon as the text is complete: on Unit 3 it took 32 minutes, longer than everything else left to do, so the card was handed over with the review still running and corrected a few minutes later. Freeze the text first, or tell the reviewer to quote what it flags, because line numbers move while you keep fitting.
+
+   What it found on Unit 3: no wrong numbers. Five statements were true only under a condition the card did not state, or could be misread:
+
+   | Card said | Fixed to |
+   |---|---|
+   | Horizontal tangent: `F_x = 0` | points of the curve with `F_x = 0`, `F_y ≠ 0` |
+   | cone `z² = c²(x² + y²)` is `z = cr` | `z = ±cr` |
+   | `4L7` = p4 left column, 7th | 7th row (two formulas share a row on that page) |
+   | `y = mx` is `θ = tan⁻¹ m` | adds "(x > 0 half)" |
+   | `∫[0→√33]−6ρ²…` | `(−6)ρ²`, so the minus is not read as a subtraction |
+
+   Shortcuts and one-line rules are where the conditions go missing. Reread each ★ asking "always?" before the reviewer has to.
+
+**Deliver** as in step 10. The offsets are the same: 90 pt in x and 216 pt in y between a word on the card and on the letter sheet.
