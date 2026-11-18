@@ -1,6 +1,6 @@
 # Math 215 equation sheet map
 
-Tag format: page, then `L` or `R` for the column, then the formula's position from the top. Check this against the current sheet before relying on it. Pages 4 to 6 were used on the Unit 2 card. The Unit 3 and 4 tags are proposals, read from the same sheet but not yet used.
+Tag format: page, then `L` or `R` for the column, then the formula's position from the top. Check this against the current sheet before relying on it. Pages 4 to 6 were used on the Unit 2 card. The Unit 3 tags (the `6U` block and all of page 7) were used on the Unit 3 card and checked against the rendered sheet on 2026-11-16. The Unit 4 tags on page 8 are still proposals.
 
 ## Page 1: trig identities (cite by name)
 
@@ -34,6 +34,8 @@ Sixteen rows below the header.
 | 16 | sec⁻¹\|x\| | 1/(x√(x²−1)) |
 
 Missing, so the toolkit covers them: product, quotient and chain rules, `aˣ`, `log`, `cos⁻¹`, `∫tan`, `∫cot`, `∫sec`, `∫csc`, `∫ln`, u-substitution, integration by parts.
+
+Row tags, used from Unit 3 on: `3L7` is row 7's derivative cell and `3R7` its integral cell, so `∫cos(bx) dx` is `3R7`, `∫e^(bx) dx` is `3R5`, and `∫(1/x) dx` is `3R3`.
 
 ## Page 4: Unit 1
 
@@ -104,7 +106,7 @@ Full-width rows below the bullets:
 | 6M4 | Arc length, 3D |
 | 6M5 | Arc-length function s(t) |
 
-Proposed tags for the Unit 3 block at the bottom of the page:
+Tags for the Unit 3 block at the bottom of the page (`U` = under the "Unit 3 Equations" heading). The sheet writes `f` for the one-sided expression in the three implicit formulas:
 
 | Tag | Formula | Tag | Formula |
 |---|---|---|---|
@@ -140,7 +142,7 @@ Full-width integral rows:
 | 7M10 | Spherical, box |
 | 7M11 | Spherical, general region |
 
-7M8 has `g(x, y, z)` on the left and `f(r, θ, z)` on the right.
+7M8 has `g(x, y, z)` on the left and `f(r, θ, z)` on the right. 7M6 uses `e` and `f` as the z-limits, so `f` is a number there. 7M10 runs θ from α to β, φ from γ to ψ, ρ from a to b. 7M11 is printed in the order dφ dρ dθ, with φ innermost between `u₁(ρ, θ)` and `u₂(ρ, θ)`. 7L5 is two lines: `∇f = λ∇g` and `g = 0`.
 
 ## Page 8: Unit 4
 
