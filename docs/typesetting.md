@@ -231,8 +231,11 @@ Each lesson section is one paragraph, so each ends in a part-filled line: ten of
 
 With no gap at the fold, the fold or cut runs through a 1.4 pt gutter. `examples/unit3/Unit3_Notecard_Letter_Duplex.tex` is an alternative print sheet for that: two letter pages, each showing one half of the 6 × 5 card (`viewport=0 0 216 360` and `216 0 432 360`, clipped) at 100% and centered, so a double-sided print flipped on the long edge puts the back exactly behind the front. Nothing has to be folded. It was offered alongside the usual letter sheet, not instead of it, and has not been printed.
 
+### Print result
+
+The user printed the 3.3 pt solid card at 1200 DPI and called it "the perfect size", adding that a tad smaller "might be starting to push it". Treat 3.25 pt as the floor; see the README. A 1-bit render at 600 DPI made the 2.25 pt integral limits marginal, so print at 1200 DPI.
+
 ### Untested
 
-- How 3.3 pt set solid prints. The card went to the user on 2026-11-16 without a test print. A 1-bit render at 1200 DPI was crisp; at 600 DPI the 2.25 pt integral limits were marginal.
 - Whether a hand cut can hold the zero margin, and whether a fold in a 1.4 pt gutter stays readable.
 - Unit 4 material: line integrals with `\oint`, and surface integrals with long vector integrands.
