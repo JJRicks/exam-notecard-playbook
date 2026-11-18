@@ -71,11 +71,13 @@ The user's report on the printed Unit 2 card: the text "was great", with "room t
 
 Asking for the Unit 3 card on 2026-11-16 they added: "the printing was super easy to see, I have access to a professional industrial printer. we can probably bump the size down just a tad more. And, the lines should be SMOOSHED up against eachother, no spacing, no page split spacing, and absolutely no margins. Every available square milimeter should be used lol." The Unit 3 card is the answer to that: 3.3 pt, set solid (115 lines per column), no margins.
 
-The Unit 3 card has not been reported on yet. Ask how it printed, in particular whether 3.3 pt set solid was still easy, whether cutting with no margin lost any text, and whether the fold landed cleanly in a 1.4 pt gap. Record the answer here.
+The user's report on the Unit 3 card, after the exam (2026-11-18): "this was SOOOO good. The layout was literally perfect in every way. Big sections, subsections, topic in plain language, equation, worked example—it was amazing". Keep that structure on the next card: a section per lesson, an entry per topic, and in each entry the plain-language meaning, then the equation (or its sheet tag), then a worked example.
+
+They did not comment on the text size, the no-margin cut or the fold specifically. They used the card in the exam and called the layout perfect, so 3.3 pt set solid works. Before going below 3.3 pt, ask whether it was still easy to read.
 
 ## Still unknown
 
-- The smallest size the user can read. No agent has seen a printed card, so any floor has to come from them. 3.55 pt is confirmed easy; 3.3 pt set solid is untested.
+- The smallest size the user can read. No agent has seen a printed card, so any floor has to come from them. 3.55 pt is confirmed easy, and 3.3 pt set solid was used in an exam and praised, though the user did not say how easy it was to read.
 - Which print settings were used. The printer is "a professional industrial printer"; nothing more is known. Ask, and record the answer here.
 - Whether a non-CAS calculator is allowed. For Exam 3 the user said the problems "need to be done by hand", so the Unit 3 card gives exact-value methods only.
 - Whether the testing center still stamps the card, and how big the stamp is. The Unit 3 card keeps a 9-line STAMP HERE block on that assumption. If the stamp is no longer used, those lines can hold about 700 more characters.
